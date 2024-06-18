@@ -1,13 +1,13 @@
-package br.com.eLegis;
+package br.com.danielchipolesch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ELegisApplication {
+public class ELegisApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ELegisApplication.class, args);
+		SpringApplication.run(ELegisApiApplication.class, args);
 	}
 
 }

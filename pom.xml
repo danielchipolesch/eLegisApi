@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com</groupId>
-	<artifactId>eLegis</artifactId>
+	<artifactId>eLegisApi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>eLegis</name>
 	<description>Spring Boot project to generate standard documents in HTML, PDF and DOCX</description>
