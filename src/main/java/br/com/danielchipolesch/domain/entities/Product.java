@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-public class Produto {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +23,6 @@ public class Produto {
     private Integer quantity;
 
     @ManyToOne
-    @JoinColumn(name = "fornecedor_id", nullable = false)
-    private Fornecedor fornecedor;
+    @JoinColumn(name = "supplier_id", nullable = false)
+    private Supplier supplier;
 }
