@@ -45,7 +45,7 @@ public class ProductService {
         Supplier supplier = supplierRepository.findById(request.supplierId())
                 .orElseThrow(()-> new Exception("Category not found"));
 
-        //TODO Implementar validações para o caso do cliente não enviar algum parâmetro
+        //TODO: Implementar validações para o caso do cliente não enviar algum parâmetro
         product.setName(request.name());
         product.setPrice(BigDecimal.valueOf(request.price()));
         product.setQuantity(request.quantity());
