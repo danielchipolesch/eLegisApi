@@ -13,8 +13,8 @@ public class SwaggerConfig {
         OpenAPI openAPI = new OpenAPI()
                 .components(new Components())
                 .info(new Info()
-                        .title("UsersApi - Controle de usuários")
-                        .description("Treinamento Java Arquiteto - COTI Informática")
+                        .title("eLegisApi - Controle de Documentação no COMAER")
+                        .description("Backend da aplicação para controlar as legislações no COMAER")
                         .version("v1"));
 
         return openAPI;
