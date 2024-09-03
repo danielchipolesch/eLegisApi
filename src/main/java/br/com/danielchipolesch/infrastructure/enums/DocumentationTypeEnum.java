@@ -2,9 +2,6 @@ package br.com.danielchipolesch.infrastructure.enums;
 
 import lombok.Getter;
 
-/**
- *
- */
 @Getter
 public enum DocumentationTypeEnum {
 
