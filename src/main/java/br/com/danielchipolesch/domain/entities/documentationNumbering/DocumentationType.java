@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Data
 @Entity
 @Table(name = "t_especie_normativa")
-@DynamicUpdate
+//@DynamicUpdate
 public class DocumentationType {
 
     @Id
