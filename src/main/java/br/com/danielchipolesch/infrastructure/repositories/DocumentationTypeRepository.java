@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DocumentationTypeRepository extends JpaRepository<DocumentationType, Long> {
-    boolean existsByAcronym(String documentationTypeEnumAcronym);
+    boolean existsByAcronym(String documentationTypeAcronym);
 }
