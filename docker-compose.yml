@@ -1,14 +1,26 @@
 version: '3.8'
 
 services:
-    postgres:
+    postgres-dev:
         image: postgres:latest
         environment:
             POSTGRES_USER: postgres
             POSTGRES_PASSWORD: 123456
-            POSTGRES_DB: elegis
+            POSTGRES_DB: elegis-dev
         ports:
             - "5432:5432"
+    
+#    postgres-prod:
+#        image: postgres:latest
+#        environment:
+#            POSTGRES_USER: postgres
+#            POSTGRES_PASSWORD: 123456
+#            POSTGRES_DB: elegis-prod
+#        ports:
+#            - "5433:5432"
+#        depends_on:
+#            - postgres-dev
+
 #        networks:
 #            - mynetwork
     
