@@ -13,6 +13,8 @@ public class DocumentCover {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
     private String militaryOrgName;
 
 
