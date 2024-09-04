@@ -2,7 +2,6 @@ package br.com.danielchipolesch.infrastructure.enums;
 
 import jakarta.persistence.Entity;
 
-@Entity
 public enum DocumentHeaderEnum {
 
     MD("MINISTÉRIO DA DEFESA"),
