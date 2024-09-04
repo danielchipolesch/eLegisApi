@@ -1,7 +1,8 @@
 package br.com.danielchipolesch.infrastructure.enums;
 
-import jakarta.persistence.Entity;
+import lombok.Getter;
 
+@Getter
 public enum DocumentHeaderEnum {
 
     MD("MINISTÉRIO DA DEFESA"),
@@ -11,9 +12,5 @@ public enum DocumentHeaderEnum {
 
     DocumentHeaderEnum(String description) {
         this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
     }
 }
