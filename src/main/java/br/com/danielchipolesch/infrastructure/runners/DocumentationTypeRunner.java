@@ -21,7 +21,7 @@ public class DocumentationTypeRunner implements CommandLineRunner {
                 DocumentationType documentationType = new DocumentationType();
                 documentationType.setAcronym(documentationTypeEnumAcronym.name());
                 documentationType.setName(documentationTypeEnumAcronym.getName());
-                documentationType.setDescription(documentationType.getDescription());
+                documentationType.setDescription(documentationTypeEnumAcronym.getDescription());
                 documentationTypeRepository.save(documentationType);
             }
         }
