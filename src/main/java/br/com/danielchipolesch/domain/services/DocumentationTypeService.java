@@ -8,13 +8,18 @@ import br.com.danielchipolesch.domain.entities.documentationNumbering.Documentat
 import br.com.danielchipolesch.infrastructure.repositories.DocumentationTypeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DocumentationTypeService {
 
     @Autowired
-    DocumentationTypeRepository documentationTypeRepository;
+    static DocumentationTypeRepository documentationTypeRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -60,5 +65,11 @@ public class DocumentationTypeService {
         return modelMapper.map(documentationType, DocumentationTypeResponseDto.class);
     }
 
-//  TODO: Implementar método para listar espécies normativas de forma paginada.
+    public List<DocumentationTypeResponseDto> getAll(Pageable pageable) throws Exception {
+        Page<DocumentationType> documentationTypes = documentationTypeRepository.findAll(pageable);
+
+        List<DocumentationTypeResponseDto> responseDtos = documentationTypes.stream().map(documentationType -> modelMapper.map(documentationType, DocumentationTypeResponseDto.class)).toList();
+
+        return responseDtos;
+    }
 }

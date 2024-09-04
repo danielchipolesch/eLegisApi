@@ -3,13 +3,17 @@ package br.com.danielchipolesch.application.controllers;
 import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeCreateRequestDto;
 import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeResponseDto;
 import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeUpdateRequestDto;
-import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
 import br.com.danielchipolesch.domain.services.DocumentationTypeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/documentation-type")
@@ -40,5 +44,13 @@ public class DocumentationTypeController {
         return  ResponseEntity.status(HttpStatus.OK).body(documentationTypeService.getById(id));
     }
 
-//    TODO: Criar método para buscar todas as espécies normativas de forma paginada
+    @GetMapping
+    public ResponseEntity<List<DocumentationTypeResponseDto>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy
+    ) throws Exception {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return ResponseEntity.status(HttpStatus.OK).body(documentationTypeService.getAll(pageable));
+    }
 }
