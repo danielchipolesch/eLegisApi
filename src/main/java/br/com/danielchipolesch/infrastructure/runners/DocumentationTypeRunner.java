@@ -17,7 +17,7 @@ public class DocumentationTypeRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         DocumentationTypeEnum[] documentationTypeEnum = DocumentationTypeEnum.values();
         for (DocumentationTypeEnum documentationTypeEnumAcronym : documentationTypeEnum){
-            if (!documentationTypeRepository.existsByAcronym(documentationTypeEnumAcronym.toString())){
+            if (!documentationTypeRepository.existsByAcronym(documentationTypeEnumAcronym.name())){
                 DocumentationType documentationType = new DocumentationType();
                 documentationType.setAcronym(documentationTypeEnumAcronym.name());
                 documentationType.setName(documentationTypeEnumAcronym.getName());
