@@ -17,7 +17,7 @@ public class BasicSubjectRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         BasicSubjectEnum[] basicSubjectEnums = BasicSubjectEnum.values();
         for (BasicSubjectEnum basicSubjectEnum : basicSubjectEnums){
-            if (!basicSubjectRepository.existsByNumber(basicSubjectEnum.toString())){
+            if (!basicSubjectRepository.existsByNumber(basicSubjectEnum.getNumber())){
                 BasicSubject basicSubject = new BasicSubject();
                 basicSubject.setNumber(basicSubjectEnum.getNumber());
                 basicSubject.setName(basicSubjectEnum.getName());
