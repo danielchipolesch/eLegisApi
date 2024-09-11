@@ -1,8 +1,8 @@
 package br.com.danielchipolesch.application.controllers;
 
-import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeCreateRequestDto;
+import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeRequestCreateDto;
 import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeResponseDto;
-import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeUpdateRequestDto;
+import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeRequestUpdateDto;
 import br.com.danielchipolesch.domain.services.DocumentationTypeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +16,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/documentation-type")
-@CrossOrigin(origins = "*")
+@RequestMapping(value = "/api/especie-normativa")
+//@CrossOrigin(origins = "*")
 public class DocumentationTypeController {
 
     @Autowired
     DocumentationTypeService documentationTypeService;
 
     @PostMapping
-    public ResponseEntity<DocumentationTypeResponseDto> post(@RequestBody @Valid DocumentationTypeCreateRequestDto request) throws Exception {
+    public ResponseEntity<DocumentationTypeResponseDto> post(@RequestBody @Valid DocumentationTypeRequestCreateDto request) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentationTypeService.create(request));
     }
 
     @PutMapping("{id}")
     public ResponseEntity<DocumentationTypeResponseDto> put(@PathVariable(value = "id") Long id,
-                                                            @RequestBody DocumentationTypeUpdateRequestDto request) throws Exception {
+                                                            @RequestBody DocumentationTypeRequestUpdateDto request) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(documentationTypeService.update(id, request));
     }
 
