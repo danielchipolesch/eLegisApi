@@ -24,7 +24,7 @@ public class BasicSubjectService {
     ModelMapper modelMapper;
 
     public BasicSubjectResponseDto create(BasicSubjectRequestCreateDto request) throws Exception {
-        if(basicSubjectRepository.existsByNumber(request.getNumber())){
+        if(basicSubjectRepository.existsByNumber(request.getBasicNumber())){
             throw new Exception(BasicSubjectException.ALREADY_EXISTS.getMessage());
         }
 
@@ -39,7 +39,7 @@ public class BasicSubjectService {
         BasicSubject basicSubject = basicSubjectRepository.findById(id)
                 .orElseThrow(() -> new Exception(BasicSubjectException.NOT_FOUND.getMessage()));
 
-        basicSubject.setNumber(request.getNumber().isBlank() ? basicSubject.getNumber() : request.getNumber());
+        basicSubject.setBasicNumber(request.getBasicNumber().isBlank() ? basicSubject.getBasicNumber() : request.getBasicNumber());
         basicSubject.setName(request.getName().isBlank() ? basicSubject.getName() : request.getName());
         basicSubject.setDescription(request.getDescription().isBlank() ? basicSubject.getDescription() : request.getDescription());
 
