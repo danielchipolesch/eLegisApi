@@ -34,10 +34,6 @@ public class Document {
     private String documentTitle;
 
     @OneToOne
-    @JoinColumn(name = "id_informacao_documento", nullable = false)
-    private DocumentInformation documentInformation;
-
-    @OneToOne
     @JoinColumn(name = "id_ato_normativo", nullable = false)
     private DocumentAct documentAct;
 
