@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "") // Table name must me created
+@Table(name = "") // Table name must be created
 @Data
 public class DocumentAttachment {
 
