@@ -18,7 +18,7 @@ public class BasicSubject {
     private Long id;
 
     @Column(name = "nr_assunto_basico", length = 4, nullable = false)
-    private String number;
+    private String basicNumber;
 
     @Column(name = "nm_classificacao", nullable = false)
     private String name;
@@ -34,7 +34,7 @@ public class BasicSubject {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    @Version
     @Column(name = "nr_versao", nullable = false)
+    @Version
     private Integer version;
 }
