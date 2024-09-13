@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BasicSubjectRequestUpdateDto {
 
-    private String number;
+    private String basicNumber;
     private String name;
     private String description;
 }
