@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "") //TODO Insert table name
+@Table(name = "t_ato_normativo")
 @Data
 public class DocumentAct {
 
@@ -21,5 +21,4 @@ public class DocumentAct {
 
     @OneToOne(mappedBy = "documentAct")
     private Document document;
-
 }
