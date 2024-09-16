@@ -18,10 +18,10 @@ import java.util.List;
 public class DocumentationTypeService {
 
     @Autowired
-    DocumentationTypeRepository documentationTypeRepository;
+    private DocumentationTypeRepository documentationTypeRepository;
 
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     public DocumentationTypeResponseDto create(DocumentationTypeRequestCreateDto request) throws Exception {
 
