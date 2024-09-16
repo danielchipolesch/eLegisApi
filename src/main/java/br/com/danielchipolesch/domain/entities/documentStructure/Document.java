@@ -2,6 +2,7 @@ package br.com.danielchipolesch.domain.entities.documentStructure;
 
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
+import br.com.danielchipolesch.domain.services.DocumentStatusEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,12 +12,13 @@ import java.sql.Timestamp;
 
 
 @Entity
-@Table(name = "") //TODO Insert table name
+@Table(name = "t_documento")
 @Data
 public class Document {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_documento")
     private Long id;
 
     @ManyToOne
@@ -32,6 +34,10 @@ public class Document {
 
     @Column(name = "nm_titulo_documento")
     private String documentTitle;
+
+    @Column(name = "st_documento", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private DocumentStatusEnum documentStatusEnum;
 
     @OneToOne
     @JoinColumn(name = "id_ato_normativo", nullable = false)
