@@ -153,12 +153,12 @@ public enum BasicSubjectEnum {
     TRADICOES("909", "Tradições, Usos e Costumes, Crenças, Valores, Ações Históricas e Quotidianas", "Assuntos relacionados ao Patrimônio imaterial do COMAER que abrangem a memória do seu efetivo constituído pelos militares da ativa e inativos, pelos civis no que tange ao desenvolvimento da instituição e a sua História; abrange matéria relativa ao registro das manifestações definidas como hábitos ou práticas, podendo abranger a transmissão oral de fatos e suas versões passadas de geração em geração, como também o conhecimento ou prática resultante desta transmissão; inclui ainda o registro das crenças e valores definidos no Estatuto dos Militares: o patriotismo, o civismo o culto das tradições históricas e o espírito de corpo"),
     DIVERSOS("950", "Diversos", "Temas que não se enquadrem em nenhum outro Assunto Básico. Este recurso somente deverá ser usado quando não for conveniente a inserção de Assunto Básico específico");
 
-    private final String number;
+    private final String code;
     private final String name;
     private final String description;
 
-    BasicSubjectEnum(String number, String name, String description){
-        this.number = number;
+    BasicSubjectEnum(String code, String name, String description){
+        this.code = code;
         this.name = name;
         this.description = description;
     }
