@@ -6,7 +6,7 @@ import lombok.*;
 public class BasicSubjectResponseDto {
 
     private Long id;
-    private String basicNumber;
+    private String code;
     private String name;
     private String description;
 }

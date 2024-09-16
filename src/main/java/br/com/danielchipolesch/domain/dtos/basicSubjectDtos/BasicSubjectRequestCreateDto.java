@@ -7,7 +7,7 @@ import lombok.Data;
 public class BasicSubjectRequestCreateDto {
 
         @NotBlank(message = "Número básico não pode estar vazio")
-        private String basicNumber;
+        private String code;
 
         @NotBlank(message = "Classificação não pode estar vazia")
         private String name;
