@@ -17,8 +17,8 @@ public class BasicSubject {
     @Column(name = "id_assunto_basico")
     private Long id;
 
-    @Column(name = "nr_assunto_basico", length = 4, nullable = false)
-    private String basicNumber;
+    @Column(name = "cd_assunto_basico", length = 4, nullable = false)
+    private String code;
 
     @Column(name = "nm_classificacao", nullable = false)
     private String name;
