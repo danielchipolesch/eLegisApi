@@ -18,13 +18,13 @@ import java.util.List;
 public class BasicSubjectService {
 
     @Autowired
-    BasicSubjectRepository basicSubjectRepository;
+    private BasicSubjectRepository basicSubjectRepository;
 
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     public BasicSubjectResponseDto create(BasicSubjectRequestCreateDto request) throws Exception {
-        if(basicSubjectRepository.existsByNumber(request.getBasicNumber())){
+        if(basicSubjectRepository.existsByCode(request.getCode())){
             throw new Exception(BasicSubjectException.ALREADY_EXISTS.getMessage());
         }
 
@@ -39,7 +39,7 @@ public class BasicSubjectService {
         BasicSubject basicSubject = basicSubjectRepository.findById(id)
                 .orElseThrow(() -> new Exception(BasicSubjectException.NOT_FOUND.getMessage()));
 
-        basicSubject.setBasicNumber(request.getBasicNumber().isBlank() ? basicSubject.getBasicNumber() : request.getBasicNumber());
+        basicSubject.setCode(request.getCode().isBlank() ? basicSubject.getCode() : request.getCode());
         basicSubject.setName(request.getName().isBlank() ? basicSubject.getName() : request.getName());
         basicSubject.setDescription(request.getDescription().isBlank() ? basicSubject.getDescription() : request.getDescription());
 
@@ -65,7 +65,7 @@ public class BasicSubjectService {
     }
 
     public BasicSubjectResponseDto getByNumber(String number) throws Exception {
-        BasicSubject basicSubject = basicSubjectRepository.findByNumber(number);
+        BasicSubject basicSubject = basicSubjectRepository.findByCode(number);
 //                .orElseThrow(() -> new Exception(BasicSubjectException.NOT_FOUND.getMessage()));
 
         return modelMapper.map(basicSubject, BasicSubjectResponseDto.class);
