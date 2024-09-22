@@ -13,8 +13,8 @@ public class DocumentAttachment {
     @Column(name = "id_anexo_documento")
     private Long id;
 
-    @Column(name = "tx_documento", columnDefinition = "TEXT")
-    private String textDocument;
+    @Column(name = "tx_anexo", columnDefinition = "TEXT")
+    private String textAttachment;
 
     @OneToOne(mappedBy = "documentAttachment")
     private Document document;
