@@ -30,7 +30,7 @@ public class Document {
     private DocumentationType documentationType;
 
     @Column(name = "nr_numero_secundario")
-    private Long secondaryNumber;
+    private Integer secondaryNumber;
 
     @Column(name = "nm_titulo_documento")
     private String documentTitle;
@@ -40,7 +40,7 @@ public class Document {
     private DocumentStatusEnum documentStatusEnum;
 
     @OneToOne
-    @JoinColumn(name = "id_ato_normativo", nullable = false)
+    @JoinColumn(name = "id_ato_normativo")
     private DocumentAct documentAct;
 
     @OneToOne
