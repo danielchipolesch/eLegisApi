@@ -1,5 +1,7 @@
 package br.com.danielchipolesch.domain.entities.documentationNumbering;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,6 +13,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "t_especie_normativa")
 //@DynamicUpdate
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class DocumentationType {
 
     @Id
