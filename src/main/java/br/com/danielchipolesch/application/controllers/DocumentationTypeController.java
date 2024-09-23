@@ -28,17 +28,6 @@ public class DocumentationTypeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentationTypeService.create(request));
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<DocumentationTypeResponseDto> put(@PathVariable(value = "id") Long id,
-                                                            @RequestBody DocumentationTypeRequestUpdateDto request) throws Exception {
-        return ResponseEntity.status(HttpStatus.OK).body(documentationTypeService.update(id, request));
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<DocumentationTypeResponseDto> delete(@PathVariable(value = "id") Long id) throws Exception {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(documentationTypeService.delete(id));
-    }
-
     @GetMapping("{id}")
     public ResponseEntity<DocumentationTypeResponseDto>  getById(@PathVariable(value = "id") Long id) throws Exception {
         return  ResponseEntity.status(HttpStatus.OK).body(documentationTypeService.getById(id));
@@ -52,5 +41,16 @@ public class DocumentationTypeController {
     ) throws Exception {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return ResponseEntity.status(HttpStatus.OK).body(documentationTypeService.getAll(pageable));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<DocumentationTypeResponseDto> put(@PathVariable(value = "id") Long id,
+                                                            @RequestBody DocumentationTypeRequestUpdateDto request) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(documentationTypeService.update(id, request));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<DocumentationTypeResponseDto> delete(@PathVariable(value = "id") Long id) throws Exception {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(documentationTypeService.delete(id));
     }
 }
