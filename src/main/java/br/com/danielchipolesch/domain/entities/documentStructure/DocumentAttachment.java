@@ -16,7 +16,7 @@ public class DocumentAttachment {
     @Column(name = "tx_anexo", columnDefinition = "TEXT")
     private String textAttachment;
 
-    @OneToOne(mappedBy = "documentAttachment")
-    private Document document;
+//    @OneToOne(mappedBy = "documentAttachment")
+//    private Document document;
 
 }

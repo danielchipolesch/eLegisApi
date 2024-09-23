@@ -18,7 +18,7 @@ public class DocumentAct {
 
     @Column(name = "bt_conteudo_ato_normativo")
     private byte[] content;
-
-    @OneToOne(mappedBy = "documentAct")
-    private Document document;
+//
+//    @OneToOne(mappedBy = "documentAct")
+//    private Document document;
 }
