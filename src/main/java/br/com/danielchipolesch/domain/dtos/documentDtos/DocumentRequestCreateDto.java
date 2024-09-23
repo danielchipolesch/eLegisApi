@@ -8,10 +8,10 @@ import lombok.Data;
 public class DocumentRequestCreateDto {
 
     @NotNull
-    private Long basicSubjectId;
+    private Long documentationTypeId;
 
     @NotNull
-    private Long documentationTypeId;
+    private Long basicSubjectId;
 
     @NotBlank
     private String documentTitle;
