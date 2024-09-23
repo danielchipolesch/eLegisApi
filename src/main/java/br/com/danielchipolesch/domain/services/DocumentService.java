@@ -69,4 +69,79 @@ public class DocumentService {
         Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
         return DocumentMapper.documentToDocumentResponseDto(document);
     }
+
+    public List<DocumentResponseDto> getByDocumentationTypeAndBasicSubject(Long documentationTypeId, Long basicSubjectId) throws ResourceNotFoundException{
+
+        var documentationType = documentationTypeRepository.findById(documentationTypeId).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
+        var basicSubject = basicSubjectRepository.findById(basicSubjectId).orElseThrow(() -> new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
+
+        List<Document> documents = documentRepository.findByDocumentationTypeAndBasicSubject(documentationType, basicSubject);
+        return documents.stream().map(DocumentMapper::documentToDocumentResponseDto).toList();
+    }
+
+    public List<DocumentResponseDto> getAll(Pageable pageable) throws ResourceNotFoundException {
+        try{
+            Page<Document> documents = documentRepository.findAll(pageable);
+            return documents.stream().map(DocumentMapper::documentToDocumentResponseDto).toList();
+        } catch (Exception e) {
+            throw new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage());
+        }
+    }
+
+    public DocumentResponseDto updateDocumentAttachment(Long id, DocumentUpdateDocumentAttachmentRequestDto request) throws ResourceNotFoundException {
+
+        Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
+        if(document.getDocumentStatusEnum() == DocumentStatusEnum.MINUTA || document.getDocumentStatusEnum() == DocumentStatusEnum.RASCUNHO) {
+//          TODO Introduce script to change status from RASCUNHO to MINUTA if so.
+            var documentAttachmentId = document.getDocumentAttachment().getId();
+            var documentAttachment = documentAttachmentRepository.findById(documentAttachmentId).orElseThrow(() -> new ResourceNotFoundException(DocumentAttachmentException.NOT_FOUND.getMessage()));
+            documentAttachment.setTextAttachment(request.getTextAttachment().isBlank() ? documentAttachment.getTextAttachment() : request.getTextAttachment());
+            documentAttachmentRepository.save(documentAttachment);
+            return DocumentMapper.documentToDocumentResponseDto(document);
+        }
+
+        throw new ResourceCannotBeUpdatedException(DocumentException.CANNOT_BE_UPDATED.getMessage());
+
+    }
+
+    public DocumentResponseDto delete(Long id) throws ResourceNotFoundException {
+
+        Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
+        documentRepository.delete(document);
+        return DocumentMapper.documentToDocumentResponseDto(document);
+    }
+
+
+    public DocumentResponseDto clone(Long id) throws Exception {
+
+        //TODO Try to use method CREATE inside method clone to avoid code duplication
+        Document documentOld = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
+
+        DocumentAttachment documentAttachmentCreate = new DocumentAttachment();
+        documentAttachmentCreate.setTextAttachment(documentOld.getDocumentAttachment().getTextAttachment());
+
+        var secondaryNumber = calculateSecondaryNumber(documentOld.getDocumentationType(), documentOld.getBasicSubject());
+
+        Document documentNew = new Document();
+
+        documentNew.setDocumentationType(documentOld.getDocumentationType());
+        documentNew.setBasicSubject(documentOld.getBasicSubject());
+        documentNew.setSecondaryNumber(secondaryNumber);
+        documentNew.setDocumentTitle(documentOld.getDocumentTitle());
+        documentNew.setDocumentStatusEnum(DocumentStatusEnum.RASCUNHO);
+        documentNew.setDocumentAttachment(documentAttachmentRepository.save(documentAttachmentCreate));
+        documentRepository.save(documentNew);
+        return DocumentMapper.documentToDocumentResponseDto(documentNew);
+    }
+
+    private Integer calculateSecondaryNumber(DocumentationType documentationType, BasicSubject basicSubject){
+
+        List<Document> documents = documentRepository.findByDocumentationTypeAndBasicSubject(documentationType, basicSubject);
+        if (documents.isEmpty()){
+            return 1;
+        }
+        List<Integer> secondaryNumbersOfAnEspecificDocument = documents.stream().map(Document::getSecondaryNumber).toList();
+        Integer biggerSecondaryNumberOfAnDocument = Collections.max(secondaryNumbersOfAnEspecificDocument);
+        return Objects.requireNonNullElse(biggerSecondaryNumberOfAnDocument, 0) + 1;
+    }
 }
