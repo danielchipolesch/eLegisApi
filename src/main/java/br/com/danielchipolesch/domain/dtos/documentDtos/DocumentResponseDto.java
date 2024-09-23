@@ -2,22 +2,21 @@ package br.com.danielchipolesch.domain.dtos.documentDtos;
 
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAct;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAttachment;
-import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
-import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
 import br.com.danielchipolesch.domain.services.DocumentStatusEnum;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
-import java.sql.Timestamp;
-
 @Data
+@AllArgsConstructor
 public class DocumentResponseDto {
 
     private Long id;
 
-    private BasicSubject basicSubject;
+    private String documentationTypeAcronym;
 
-    private DocumentationType documentationType;
+    private String basicSubjectCode;
+
+    private String basicSubjectName;
 
     private Integer secondaryNumber;
 
@@ -29,11 +28,9 @@ public class DocumentResponseDto {
 
     private DocumentAttachment documentAttachment;
 
-    private Timestamp createdAt;
+    private String createdAt;
 
-    private Timestamp updatedAt;
+    private String updatedAt;
 
     private Integer version;
-
-
 }
