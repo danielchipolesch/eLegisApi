@@ -1,6 +1,8 @@
 package br.com.danielchipolesch.domain.services;
 
-import br.com.danielchipolesch.domain.exceptions.DocumentationTypeException;
+import br.com.danielchipolesch.domain.exceptions.ResourceAlreadyExistsException;
+import br.com.danielchipolesch.domain.exceptions.ResourceNotFoundException;
+import br.com.danielchipolesch.domain.exceptions.enums.DocumentationTypeException;
 import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeRequestCreateDto;
 import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeResponseDto;
 import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeRequestUpdateDto;
@@ -18,15 +20,15 @@ import java.util.List;
 public class DocumentationTypeService {
 
     @Autowired
-    private DocumentationTypeRepository documentationTypeRepository;
+    DocumentationTypeRepository documentationTypeRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    ModelMapper modelMapper;
 
     public DocumentationTypeResponseDto create(DocumentationTypeRequestCreateDto request) throws Exception {
 
         if(documentationTypeRepository.existsByAcronym(request.getAcronym())){
-            throw new Exception(DocumentationTypeException.ALREADY_EXISTS.getMessage());
+            throw new ResourceAlreadyExistsException(DocumentationTypeException.ALREADY_EXISTS.getMessage());
         }
 
         DocumentationType documentationType = modelMapper.map(request, DocumentationType.class);
@@ -35,10 +37,9 @@ public class DocumentationTypeService {
     }
 
 
-    public DocumentationTypeResponseDto update(Long id, DocumentationTypeRequestUpdateDto request) throws Exception{
+    public DocumentationTypeResponseDto update(Long id, DocumentationTypeRequestUpdateDto request) throws Exception {
 
-        DocumentationType documentationType = documentationTypeRepository.findById(id)
-                .orElseThrow(() -> new Exception(DocumentationTypeException.NOT_FOUND.getMessage()));
+        DocumentationType documentationType = documentationTypeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
 
         documentationType.setAcronym(request.getAcronym().isBlank() ? documentationType.getAcronym() : request.getAcronym());
         documentationType.setName(request.getName().isBlank() ? documentationType.getName() : request.getName());
@@ -51,8 +52,7 @@ public class DocumentationTypeService {
 
     public DocumentationTypeResponseDto delete(Long id) throws Exception {
 
-        DocumentationType documentationType =
-                documentationTypeRepository.findById(id).orElseThrow(() -> new Exception(DocumentationTypeException.NOT_FOUND.getMessage()));
+        DocumentationType documentationType = documentationTypeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
 
         documentationTypeRepository.delete(documentationType);
 
@@ -61,8 +61,7 @@ public class DocumentationTypeService {
 
     public DocumentationTypeResponseDto getById(Long id) throws Exception {
 
-        DocumentationType documentationType =
-                documentationTypeRepository.findById(id).orElseThrow(() -> new Exception(DocumentationTypeException.NOT_FOUND.getMessage()));
+        DocumentationType documentationType = documentationTypeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
 
         return modelMapper.map(documentationType, DocumentationTypeResponseDto.class);
     }
@@ -70,8 +69,6 @@ public class DocumentationTypeService {
     public List<DocumentationTypeResponseDto> getAll(Pageable pageable) throws Exception {
         Page<DocumentationType> documentationTypes = documentationTypeRepository.findAll(pageable);
 
-        List<DocumentationTypeResponseDto> responseDtos = documentationTypes.stream().map(documentationType -> modelMapper.map(documentationType, DocumentationTypeResponseDto.class)).toList();
-
-        return responseDtos;
+        return documentationTypes.stream().map(documentationType -> modelMapper.map(documentationType, DocumentationTypeResponseDto.class)).toList();
     }
 }

@@ -4,7 +4,9 @@ import br.com.danielchipolesch.domain.dtos.basicSubjectDtos.BasicSubjectRequestC
 import br.com.danielchipolesch.domain.dtos.basicSubjectDtos.BasicSubjectRequestUpdateDto;
 import br.com.danielchipolesch.domain.dtos.basicSubjectDtos.BasicSubjectResponseDto;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
-import br.com.danielchipolesch.domain.exceptions.BasicSubjectException;
+import br.com.danielchipolesch.domain.exceptions.ResourceAlreadyExistsException;
+import br.com.danielchipolesch.domain.exceptions.ResourceNotFoundException;
+import br.com.danielchipolesch.domain.exceptions.enums.BasicSubjectException;
 import br.com.danielchipolesch.infrastructure.repositories.BasicSubjectRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ public class BasicSubjectService {
 
     public BasicSubjectResponseDto create(BasicSubjectRequestCreateDto request) throws Exception {
         if(basicSubjectRepository.existsByCode(request.getCode())){
-            throw new Exception(BasicSubjectException.ALREADY_EXISTS.getMessage());
+            throw new ResourceAlreadyExistsException(BasicSubjectException.ALREADY_EXISTS.getMessage());
         }
 
         BasicSubject basicSubject = modelMapper.map(request, BasicSubject.class);
@@ -36,8 +38,7 @@ public class BasicSubjectService {
 
     public BasicSubjectResponseDto update(Long id, BasicSubjectRequestUpdateDto request) throws Exception{
 
-        BasicSubject basicSubject = basicSubjectRepository.findById(id)
-                .orElseThrow(() -> new Exception(BasicSubjectException.NOT_FOUND.getMessage()));
+        BasicSubject basicSubject = basicSubjectRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
 
         basicSubject.setCode(request.getCode().isBlank() ? basicSubject.getCode() : request.getCode());
         basicSubject.setName(request.getName().isBlank() ? basicSubject.getName() : request.getName());
@@ -50,7 +51,7 @@ public class BasicSubjectService {
 
     public BasicSubjectResponseDto delete(Long id) throws Exception {
         BasicSubject basicSubject = basicSubjectRepository.findById(id)
-                .orElseThrow(() -> new Exception(BasicSubjectException.NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
 
         basicSubjectRepository.delete(basicSubject);
 
@@ -59,7 +60,7 @@ public class BasicSubjectService {
 
     public BasicSubjectResponseDto getById(Long id) throws Exception {
         BasicSubject basicSubject = basicSubjectRepository.findById(id)
-                .orElseThrow(() -> new Exception(BasicSubjectException.NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
 
         return modelMapper.map(basicSubject, BasicSubjectResponseDto.class);
     }
