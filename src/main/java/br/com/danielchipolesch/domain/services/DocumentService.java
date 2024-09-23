@@ -31,9 +31,17 @@ import java.util.Objects;
 public class DocumentService {
 
     @Autowired
-    private DocumentRepository documentRepository;
+    DocumentRepository documentRepository;
 
-    //TODO Create logic to new documents
+    @Autowired
+    DocumentationTypeRepository documentationTypeRepository;
+
+    @Autowired
+    BasicSubjectRepository basicSubjectRepository;
+
+    @Autowired
+    DocumentAttachmentRepository documentAttachmentRepository;
+
     public DocumentResponseDto create(DocumentRequestCreateDto request) throws Exception {
 
         BasicSubject basicSubject = basicSubjectRepository.findById(request.getBasicSubjectId()).orElseThrow(() ->  new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
