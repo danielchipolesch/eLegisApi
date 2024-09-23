@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "t_documento")
 @Data
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Document {
 
     @Id
