@@ -22,17 +22,19 @@ public class Document {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_assunto_basico")
-    private BasicSubject basicSubject;
-
-    @ManyToOne
-    @JoinColumn(name = "id_especie_normativa")
+    @JoinColumn(name = "id_especie_normativa", nullable = false)
+//    @JsonIgnore
     private DocumentationType documentationType;
 
-    @Column(name = "nr_numero_secundario")
+    @ManyToOne
+    @JoinColumn(name = "id_assunto_basico", nullable = false)
+//    @JsonIgnore
+    private BasicSubject basicSubject;
+
+    @Column(name = "nr_numero_secundario", nullable = false)
     private Integer secondaryNumber;
 
-    @Column(name = "nm_titulo_documento")
+    @Column(name = "nm_titulo_documento", nullable = false)
     private String documentTitle;
 
     @Column(name = "st_documento", nullable = false)
