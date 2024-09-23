@@ -39,12 +39,12 @@ public class Document {
     @Enumerated(EnumType.STRING)
     private DocumentStatusEnum documentStatusEnum;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_ato_normativo")
     private DocumentAct documentAct;
 
-    @OneToOne
-    @JoinColumn(name = "id_anexo_documento", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id_anexo_documento", nullable = false, updatable = false)
     private DocumentAttachment documentAttachment;
 
     @Column(name = "dt_criacao", updatable = false)
