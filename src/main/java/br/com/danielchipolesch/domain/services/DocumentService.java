@@ -14,6 +14,30 @@ public class DocumentService {
 
     //TODO Create logic to new documents
     public DocumentResponseDto create(DocumentRequestCreateDto request) throws Exception {
-        return null;
+
+        BasicSubject basicSubject = basicSubjectRepository.findById(request.getBasicSubjectId()).orElseThrow(() ->  new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
+        DocumentationType documentationType = documentationTypeRepository.findById(request.getDocumentationTypeId()).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
+
+        DocumentAttachment documentAttachmentCreate = new DocumentAttachment();
+        documentAttachmentCreate.setTextAttachment("Insira o texto do documento.");
+
+        var secondaryNumber = calculateSecondaryNumber(documentationType, basicSubject);
+
+        Document document = new Document();
+
+        document.setBasicSubject(basicSubject);
+        document.setDocumentationType(documentationType);
+        document.setSecondaryNumber(secondaryNumber);
+        document.setDocumentTitle(request.getDocumentTitle());
+        document.setDocumentStatusEnum(DocumentStatusEnum.RASCUNHO);
+        document.setDocumentAttachment(documentAttachmentRepository.save(documentAttachmentCreate));
+        documentRepository.save(document);
+        return DocumentMapper.documentToDocumentResponseDto(document);
+    }
+
+    public DocumentResponseDto getById(Long id) throws ResourceNotFoundException{
+
+        Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
+        return DocumentMapper.documentToDocumentResponseDto(document);
     }
 }
