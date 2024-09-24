@@ -1,5 +1,7 @@
 package br.com.danielchipolesch.domain.services;
 
+import br.com.danielchipolesch.application.helpers.DocumentHelper;
+import br.com.danielchipolesch.domain.builders.DocumentBuilder;
 import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentRequestCreateDto;
 import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentResponseDto;
 import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentUpdateDocumentAttachmentRequestDto;
@@ -42,10 +44,13 @@ public class DocumentService {
     @Autowired
     DocumentAttachmentRepository documentAttachmentRepository;
 
+
     public DocumentResponseDto create(DocumentRequestCreateDto request) throws Exception {
 
         BasicSubject basicSubject = basicSubjectRepository.findById(request.getBasicSubjectId()).orElseThrow(() ->  new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
         DocumentationType documentationType = documentationTypeRepository.findById(request.getDocumentationTypeId()).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
+
+        var secondaryNumber = this.calculateSecondaryNumber(documentationType, basicSubject);
 
         DocumentAttachment documentAttachmentCreate = new DocumentAttachment();
         documentAttachmentCreate.setTextAttachment("Insira o texto do documento.");
@@ -98,12 +103,14 @@ public class DocumentService {
     public DocumentResponseDto updateDocumentAttachment(Long id, DocumentUpdateDocumentAttachmentRequestDto request) throws ResourceNotFoundException {
 
         Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
-        if(document.getDocumentStatusEnum() == DocumentStatusEnum.MINUTA || document.getDocumentStatusEnum() == DocumentStatusEnum.RASCUNHO) {
-//          TODO Introduce script to change status from RASCUNHO to MINUTA if so.
+        if(document.getDocumentStatusEnum() == DocumentStatusEnum.RASCUNHO || document.getDocumentStatusEnum() == DocumentStatusEnum.MINUTA) {
             var documentAttachmentId = document.getDocumentAttachment().getId();
             var documentAttachment = documentAttachmentRepository.findById(documentAttachmentId).orElseThrow(() -> new ResourceNotFoundException(DocumentAttachmentException.NOT_FOUND.getMessage()));
             documentAttachment.setTextAttachment(request.getTextAttachment().isBlank() ? documentAttachment.getTextAttachment() : request.getTextAttachment());
             documentAttachmentRepository.save(documentAttachment);
+            document.setDocumentStatusEnum(DocumentStatusEnum.MINUTA);
+//            DocumentHelper.updateStatusDocument(document, DocumentStatusEnum.MINUTA);
+            documentRepository.save(document);
             return DocumentMapper.documentToDocumentResponseDto(document);
         }
 
@@ -152,7 +159,7 @@ public class DocumentService {
         DocumentAttachment documentAttachmentCreate = new DocumentAttachment();
         documentAttachmentCreate.setTextAttachment(documentOld.getDocumentAttachment().getTextAttachment());
 
-        var secondaryNumber = calculateSecondaryNumber(documentOld.getDocumentationType(), documentOld.getBasicSubject());
+        var secondaryNumber = this.calculateSecondaryNumber(documentOld.getDocumentationType(), documentOld.getBasicSubject());
 
         Document documentNew = new DocumentBuilder()
                 .documentationType(documentOld.getDocumentationType())
