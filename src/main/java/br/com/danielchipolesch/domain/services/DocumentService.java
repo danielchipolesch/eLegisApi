@@ -107,7 +107,7 @@ public class DocumentService {
             return DocumentMapper.documentToDocumentResponseDto(document);
         }
 
-        throw new ResourceCannotBeUpdatedException(DocumentException.CANNOT_BE_UPDATED.getMessage());
+        throw new ResourceCannotBeUpdatedException(DocumentException.cannotUpdateForStatus(document.getDocumentStatusEnum()));
 
     }
 
