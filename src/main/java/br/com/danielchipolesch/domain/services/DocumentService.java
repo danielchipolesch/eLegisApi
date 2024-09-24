@@ -129,7 +129,15 @@ public class DocumentService {
 
         var secondaryNumber = calculateSecondaryNumber(documentOld.getDocumentationType(), documentOld.getBasicSubject());
 
-        Document documentNew = new Document();
+        Document documentNew = new DocumentBuilder()
+                .documentationType(documentOld.getDocumentationType())
+                .basicSubject(documentOld.getBasicSubject())
+                .secondaryNumber(secondaryNumber)
+                .documentTitle(documentOld.getDocumentTitle())
+                .documentStatusEnum(DocumentStatusEnum.RASCUNHO)
+                .documentAct(documentOld.getDocumentAct())
+                .documentAttachment(documentAttachmentRepository.save(documentAttachmentCreate))
+                .build();
 
         documentNew.setDocumentationType(documentOld.getDocumentationType());
         documentNew.setBasicSubject(documentOld.getBasicSubject());
