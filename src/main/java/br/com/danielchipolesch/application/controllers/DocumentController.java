@@ -3,8 +3,6 @@ package br.com.danielchipolesch.application.controllers;
 import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentRequestCreateDto;
 import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentResponseDto;
 import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentUpdateDocumentAttachmentRequestDto;
-import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeRequestUpdateDto;
-import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeResponseDto;
 import br.com.danielchipolesch.domain.services.DocumentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +51,9 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.OK).body(documentService.getAll(pageable));
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<DocumentResponseDto> putDocumentAttachmentInDocument(@PathVariable(value = "id") Long id,
-                                                                               @RequestBody DocumentUpdateDocumentAttachmentRequestDto request) throws Exception {
+    @PutMapping("{id}/anexo")
+    public ResponseEntity<DocumentResponseDto> putDocumentAttachmentDocument(@PathVariable(value = "id") Long id,
+                                                                             @RequestBody DocumentUpdateDocumentAttachmentRequestDto request) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(documentService.updateDocumentAttachment(id, request));
     }
 
