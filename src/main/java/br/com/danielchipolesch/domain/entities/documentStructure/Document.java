@@ -26,12 +26,10 @@ public class Document {
 
     @ManyToOne
     @JoinColumn(name = "id_especie_normativa", nullable = false)
-//    @JsonIgnore
     private DocumentationType documentationType;
 
     @ManyToOne
     @JoinColumn(name = "id_assunto_basico", nullable = false)
-//    @JsonIgnore
     private BasicSubject basicSubject;
 
     @Column(name = "nr_numero_secundario", nullable = false)
