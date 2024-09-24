@@ -25,9 +25,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class DocumentService {
@@ -64,14 +62,6 @@ public class DocumentService {
                 .documentAttachment(documentAttachmentRepository.save(documentAttachmentCreate))
                 .build();
 
-        Document document = new Document();
-
-        document.setBasicSubject(basicSubject);
-        document.setDocumentationType(documentationType);
-        document.setSecondaryNumber(secondaryNumber);
-        document.setDocumentTitle(request.getDocumentTitle());
-        document.setDocumentStatusEnum(DocumentStatusEnum.RASCUNHO);
-        document.setDocumentAttachment(documentAttachmentRepository.save(documentAttachmentCreate));
         documentRepository.save(document);
         return DocumentMapper.documentToDocumentResponseDto(document);
     }
@@ -153,7 +143,6 @@ public class DocumentService {
 
     public DocumentResponseDto clone(Long id) throws Exception {
 
-        //TODO Try to use method CREATE inside method clone to avoid code duplication
         Document documentOld = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
 
         DocumentAttachment documentAttachmentCreate = new DocumentAttachment();
@@ -171,24 +160,30 @@ public class DocumentService {
                 .documentAttachment(documentAttachmentRepository.save(documentAttachmentCreate))
                 .build();
 
-        documentNew.setDocumentationType(documentOld.getDocumentationType());
-        documentNew.setBasicSubject(documentOld.getBasicSubject());
-        documentNew.setSecondaryNumber(secondaryNumber);
-        documentNew.setDocumentTitle(documentOld.getDocumentTitle());
-        documentNew.setDocumentStatusEnum(DocumentStatusEnum.RASCUNHO);
-        documentNew.setDocumentAttachment(documentAttachmentRepository.save(documentAttachmentCreate));
         documentRepository.save(documentNew);
         return DocumentMapper.documentToDocumentResponseDto(documentNew);
     }
 
-    private Integer calculateSecondaryNumber(DocumentationType documentationType, BasicSubject basicSubject){
+    public Integer calculateSecondaryNumber(DocumentationType documentationType, BasicSubject basicSubject){
 
         List<Document> documents = documentRepository.findByDocumentationTypeAndBasicSubject(documentationType, basicSubject);
-        if (documents.isEmpty()){
+
+        if (documents.isEmpty()) {
             return 1;
         }
-        List<Integer> secondaryNumbersOfAnEspecificDocument = documents.stream().map(Document::getSecondaryNumber).toList();
-        Integer biggerSecondaryNumberOfAnDocument = Collections.max(secondaryNumbersOfAnEspecificDocument);
-        return Objects.requireNonNullElse(biggerSecondaryNumberOfAnDocument, 0) + 1;
+
+        List<Integer> secondaryNumbers = documents.stream()
+                .map(Document::getSecondaryNumber)
+                .sorted()
+                .toList();
+
+        for (int i = 1; i <= secondaryNumbers.size(); i++) {
+            if (!secondaryNumbers.contains(i)) {
+                return i;  // Returns smaller available number
+            }
+        }
+
+        return secondaryNumbers.size() + 1;
     }
+
 }
