@@ -50,7 +50,14 @@ public class DocumentService {
         DocumentAttachment documentAttachmentCreate = new DocumentAttachment();
         documentAttachmentCreate.setTextAttachment("Insira o texto do documento.");
 
-        var secondaryNumber = calculateSecondaryNumber(documentationType, basicSubject);
+        Document document = new DocumentBuilder()
+                .documentationType(documentationType)
+                .basicSubject(basicSubject)
+                .secondaryNumber(secondaryNumber)
+                .documentTitle(request.getDocumentTitle())
+                .documentStatusEnum(DocumentStatusEnum.RASCUNHO)
+                .documentAttachment(documentAttachmentRepository.save(documentAttachmentCreate))
+                .build();
 
         Document document = new Document();
 
