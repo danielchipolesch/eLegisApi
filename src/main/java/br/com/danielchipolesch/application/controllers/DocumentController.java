@@ -28,6 +28,11 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentService.create(request));
     }
 
+    @PostMapping("{id}/clone")
+    public ResponseEntity<DocumentResponseDto> clone(@PathVariable(value = "id") Long id) throws Exception {
+        return ResponseEntity.status(HttpStatus.CREATED).body(documentService.clone(id));
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<DocumentResponseDto> getById(@PathVariable(value = "id") Long id) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(documentService.getById(id));
