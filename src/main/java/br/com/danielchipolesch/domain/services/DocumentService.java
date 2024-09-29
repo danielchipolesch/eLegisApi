@@ -93,20 +93,17 @@ public class DocumentService {
     public DocumentResponseDto updateDocumentAttachment(Long id, DocumentUpdateDocumentAttachmentRequestDto request) throws ResourceNotFoundException {
 
         Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
-        if(document.getDocumentStatusEnum() == DocumentStatusEnum.RASCUNHO || document.getDocumentStatusEnum() == DocumentStatusEnum.MINUTA) {
+        if(document.getDocumentStatus() == DocumentStatus.RASCUNHO || document.getDocumentStatus() == DocumentStatus.MINUTA) {
             var documentAttachmentId = document.getDocumentAttachment().getId();
             var documentAttachment = documentAttachmentRepository.findById(documentAttachmentId).orElseThrow(() -> new ResourceNotFoundException(DocumentAttachmentException.NOT_FOUND.getMessage()));
             documentAttachment.setTextAttachment(request.getTextAttachment().isBlank() ? documentAttachment.getTextAttachment() : request.getTextAttachment());
             documentAttachmentRepository.save(documentAttachment);
-            document.setDocumentStatusEnum(DocumentStatusEnum.MINUTA);
-//            DocumentHelper.updateStatusDocument(document, DocumentStatusEnum.MINUTA);
+            document.setDocumentStatus(DocumentStatus.MINUTA);
             documentRepository.save(document);
             return DocumentMapper.documentToDocumentResponseDto(document);
         }
 
-        throw new ResourceCannotBeUpdatedException(DocumentException.cannotUpdateForStatus(document.getDocumentStatusEnum()));
-
-    }
+        throw new ResourceCannotBeUpdatedException(DocumentException.cannotUpdateStatus(document.getDocumentStatus()));
 
     public DocumentResponseDto approveDocument(){
         /* TODO Insert logic to approve documents (APROVADO). To choose this status, current status must be MINUTA. */
@@ -155,7 +152,7 @@ public class DocumentService {
                 .basicSubject(documentOld.getBasicSubject())
                 .secondaryNumber(secondaryNumber)
                 .documentTitle(documentOld.getDocumentTitle())
-                .documentStatusEnum(DocumentStatusEnum.RASCUNHO)
+                .documentStatus(DocumentStatus.RASCUNHO)
                 .documentAct(documentOld.getDocumentAct())
                 .documentAttachment(documentAttachmentRepository.save(documentAttachmentCreate))
                 .build();
