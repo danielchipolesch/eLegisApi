@@ -3,9 +3,9 @@ package br.com.danielchipolesch.domain.builders;
 import br.com.danielchipolesch.domain.entities.documentStructure.Document;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAct;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAttachment;
+import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
-import br.com.danielchipolesch.domain.services.DocumentStatusEnum;
 
 public class DocumentBuilder {
 
@@ -13,7 +13,7 @@ public class DocumentBuilder {
     private BasicSubject basicSubject;
     private Integer secondaryNumber;
     private String documentTitle;
-    private DocumentStatusEnum documentStatusEnum;
+    private DocumentStatus documentStatus;
     private DocumentAct documentAct;
     private DocumentAttachment documentAttachment;
 
@@ -38,8 +38,8 @@ public class DocumentBuilder {
         return this;
     }
 
-    public DocumentBuilder documentStatusEnum(DocumentStatusEnum documentStatusEnum) {
-        this.documentStatusEnum = documentStatusEnum;
+    public DocumentBuilder documentStatus(DocumentStatus documentStatus) {
+        this.documentStatus = documentStatus;
         return this;
     }
 
@@ -59,7 +59,7 @@ public class DocumentBuilder {
         document.setBasicSubject(this.basicSubject);
         document.setSecondaryNumber(this.secondaryNumber);
         document.setDocumentTitle(this.documentTitle);
-        document.setDocumentStatusEnum(this.documentStatusEnum);
+        document.setDocumentStatus(this.documentStatus);
         document.setDocumentAct(this.documentAct);
         document.setDocumentAttachment(this.documentAttachment);
         return document;

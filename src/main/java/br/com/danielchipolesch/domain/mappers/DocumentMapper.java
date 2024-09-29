@@ -1,4 +1,4 @@
-package br.com.danielchipolesch.application.helpers;
+package br.com.danielchipolesch.domain.mappers;
 
 
 import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentResponseDto;
@@ -14,7 +14,7 @@ public class DocumentMapper {
                 document.getBasicSubject().getName(),
                 document.getSecondaryNumber(),
                 document.getDocumentTitle(),
-                document.getDocumentStatusEnum(),
+                document.getDocumentStatus(),
                 document.getDocumentAct(),
                 document.getDocumentAttachment(),
                 document.getCreatedAt().toString(),

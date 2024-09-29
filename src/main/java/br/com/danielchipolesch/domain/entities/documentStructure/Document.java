@@ -2,7 +2,6 @@ package br.com.danielchipolesch.domain.entities.documentStructure;
 
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
-import br.com.danielchipolesch.domain.services.DocumentStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -40,7 +39,7 @@ public class Document {
 
     @Column(name = "st_documento", nullable = false)
     @Enumerated(EnumType.STRING)
-    private DocumentStatusEnum documentStatusEnum;
+    private DocumentStatus documentStatus;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_ato_normativo")

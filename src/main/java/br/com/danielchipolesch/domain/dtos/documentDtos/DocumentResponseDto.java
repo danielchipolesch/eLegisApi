@@ -2,7 +2,7 @@ package br.com.danielchipolesch.domain.dtos.documentDtos;
 
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAct;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAttachment;
-import br.com.danielchipolesch.domain.services.DocumentStatusEnum;
+import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -22,7 +22,7 @@ public class DocumentResponseDto {
 
     private String documentTitle;
 
-    private DocumentStatusEnum documentStatusEnum;
+    private DocumentStatus documentStatus;
 
     private DocumentAct documentAct;
 
