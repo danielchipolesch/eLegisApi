@@ -4,6 +4,7 @@ import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentRequestCreateDto
 import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentResponseDto;
 import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentUpdateDocumentAttachmentRequestDto;
 import br.com.danielchipolesch.domain.services.DocumentService;
+import br.com.danielchipolesch.domain.services.DocumentStatusManagerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,9 @@ public class DocumentController {
 
     @Autowired
     private DocumentService documentService;
+
+    @Autowired
+    private DocumentStatusManagerService documentStatusManagerService;
 
 
     @PostMapping
@@ -62,13 +66,13 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.OK).body(documentService.updateDocumentAttachment(id, request));
     }
 
+    @PutMapping("{id}/aprovar")
+    public ResponseEntity<DocumentResponseDto> setDocumentAsApproved (@PathVariable(value = "id") Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(documentStatusManagerService.approveDocument(id));
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<DocumentResponseDto> delete(@PathVariable(value = "id") Long id) throws Exception {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(documentService.delete(id));
-    }
-
-    @PostMapping("{id}/clone")
-    public ResponseEntity<DocumentResponseDto> clone(@PathVariable(value = "id") Long id) throws Exception {
-        return ResponseEntity.status(HttpStatus.CREATED).body(documentService.clone(id));
     }
 }
