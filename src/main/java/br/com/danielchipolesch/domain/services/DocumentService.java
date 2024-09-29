@@ -9,7 +9,7 @@ import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAttachm
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
-import br.com.danielchipolesch.domain.exceptions.ResourceCannotBeUpdatedException;
+import br.com.danielchipolesch.domain.exceptions.StatusCannotBeUpdatedException;
 import br.com.danielchipolesch.domain.exceptions.enums.BasicSubjectException;
 import br.com.danielchipolesch.domain.exceptions.enums.DocumentAttachmentException;
 import br.com.danielchipolesch.domain.exceptions.enums.DocumentException;
@@ -104,7 +104,7 @@ public class DocumentService {
             return DocumentMapper.documentToDocumentResponseDto(document);
         }
 
-        throw new ResourceCannotBeUpdatedException(DocumentException.cannotUpdateStatus(document.getDocumentStatus()));
+        throw new StatusCannotBeUpdatedException(DocumentException.CANNOT_BE_UPDATED.getMessage());
 
     }
 
