@@ -58,7 +58,7 @@ public class DocumentService {
                 .basicSubject(basicSubject)
                 .secondaryNumber(secondaryNumber)
                 .documentTitle(request.getDocumentTitle())
-                .documentStatusEnum(DocumentStatusEnum.RASCUNHO)
+                .documentStatus(DocumentStatus.RASCUNHO)
                 .documentAttachment(documentAttachmentRepository.save(documentAttachmentCreate))
                 .build();
 
