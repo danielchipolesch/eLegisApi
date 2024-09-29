@@ -66,7 +66,7 @@ public class DocumentService {
         return DocumentMapper.documentToDocumentResponseDto(document);
     }
 
-    public DocumentResponseDto getById(Long id) throws ResourceNotFoundException{
+    public DocumentResponseDto getById(Long id) throws RuntimeException{
 
         Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
         return DocumentMapper.documentToDocumentResponseDto(document);
@@ -81,7 +81,7 @@ public class DocumentService {
         return documents.stream().map(DocumentMapper::documentToDocumentResponseDto).toList();
     }
 
-    public List<DocumentResponseDto> getAll(Pageable pageable) throws ResourceNotFoundException {
+    public List<DocumentResponseDto> getAll(Pageable pageable) throws RuntimeException {
         try{
             Page<Document> documents = documentRepository.findAll(pageable);
             return documents.stream().map(DocumentMapper::documentToDocumentResponseDto).toList();
@@ -90,7 +90,7 @@ public class DocumentService {
         }
     }
 
-    public DocumentResponseDto updateDocumentAttachment(Long id, DocumentUpdateDocumentAttachmentRequestDto request) throws ResourceNotFoundException {
+    public DocumentResponseDto updateDocumentAttachment(Long id, DocumentUpdateDocumentAttachmentRequestDto request) throws RuntimeException {
 
         Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
         if(document.getDocumentStatus() == DocumentStatus.RASCUNHO || document.getDocumentStatus() == DocumentStatus.MINUTA) {
@@ -105,32 +105,9 @@ public class DocumentService {
 
         throw new ResourceCannotBeUpdatedException(DocumentException.cannotUpdateStatus(document.getDocumentStatus()));
 
-    public DocumentResponseDto approveDocument(){
-        /* TODO Insert logic to approve documents (APROVADO). To choose this status, current status must be MINUTA. */
-        return null;
     }
 
-    public DocumentResponseDto publishDocument(){
-        /* TODO Insert logic to publish documents (PUBLICADO). To choose this status, current status must be APROVADO. */
-        return null;
-    }
-
-    public DocumentResponseDto archiveDocument(){
-        /* TODO Insert logic to archive documents (ARQUIVADO). To choose this status, current status must be XYZ. */
-        return null;
-    }
-
-    public DocumentResponseDto cancelDocument(){
-        /* TODO Insert logic to cancel documents (CANCELADO). To choose this status, current status must be ZYX. */
-        return null;
-    }
-
-    public DocumentResponseDto revokeDocument(){
-        /* TODO Insert logic to revoke documents (REVOGAR). To choose this status, current status must be AAAAA. */
-        return null;
-    }
-
-    public DocumentResponseDto delete(Long id) throws ResourceNotFoundException {
+    public DocumentResponseDto delete(Long id) throws RuntimeException {
 
         Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
         documentRepository.delete(document);
@@ -138,7 +115,7 @@ public class DocumentService {
     }
 
 
-    public DocumentResponseDto clone(Long id) throws Exception {
+    public DocumentResponseDto clone(Long id) throws RuntimeException {
 
         Document documentOld = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
 
