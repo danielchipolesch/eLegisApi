@@ -1,9 +1,6 @@
 package br.com.danielchipolesch.domain.handlers;
 
-import br.com.danielchipolesch.domain.exceptions.InvalidInputException;
-import br.com.danielchipolesch.domain.exceptions.ResourceAlreadyExistsException;
-import br.com.danielchipolesch.domain.exceptions.ResourceCannotBeUpdatedException;
-import br.com.danielchipolesch.domain.exceptions.ResourceNotFoundException;
+import br.com.danielchipolesch.domain.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -50,6 +47,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceCannotBeUpdatedException.class)
     public ResponseEntity<Map<String, Object>> handleResourceCannotBeUpdatedException(ResourceCannotBeUpdatedException e) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("timestamp", LocalDateTime.now().toString());
+        map.put("message", e.getMessage());
+        return new ResponseEntity<>(map, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(StatusCannotBeUpdatedException.class)
+    public  ResponseEntity<Map<String, Object>> handleStatusCannotBeUpdatedException(StatusCannotBeUpdatedException e){
         Map<String, Object> map = new HashMap<>();
         map.put("timestamp", LocalDateTime.now().toString());
         map.put("message", e.getMessage());
