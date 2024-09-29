@@ -1,6 +1,7 @@
-package br.com.danielchipolesch.domain.services;
+package br.com.danielchipolesch.domain.entities.documentStructure;
 
-public enum DocumentStatusEnum {
+
+public enum DocumentStatus {
     RASCUNHO,
     MINUTA,
     APROVADO,
