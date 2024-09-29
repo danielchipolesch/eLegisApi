@@ -14,7 +14,7 @@ import br.com.danielchipolesch.domain.exceptions.enums.BasicSubjectException;
 import br.com.danielchipolesch.domain.exceptions.enums.DocumentAttachmentException;
 import br.com.danielchipolesch.domain.exceptions.enums.DocumentException;
 import br.com.danielchipolesch.domain.exceptions.enums.DocumentationTypeException;
-import br.com.danielchipolesch.application.helpers.DocumentMapper;
+import br.com.danielchipolesch.domain.mappers.DocumentMapper;
 import br.com.danielchipolesch.domain.exceptions.ResourceNotFoundException;
 import br.com.danielchipolesch.infrastructure.repositories.BasicSubjectRepository;
 import br.com.danielchipolesch.infrastructure.repositories.DocumentAttachmentRepository;
