@@ -138,7 +138,7 @@ public class DocumentService {
         return DocumentMapper.documentToDocumentResponseDto(documentNew);
     }
 
-    public Integer calculateSecondaryNumber(DocumentationType documentationType, BasicSubject basicSubject){
+    private Integer calculateSecondaryNumber(DocumentationType documentationType, BasicSubject basicSubject){
 
         List<Document> documents = documentRepository.findByDocumentationTypeAndBasicSubject(documentationType, basicSubject);
 
