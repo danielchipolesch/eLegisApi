@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,8 +43,8 @@ public class DocumentService {
     @Autowired
     DocumentAttachmentRepository documentAttachmentRepository;
 
-
-    public DocumentResponseDto create(DocumentRequestCreateDto request) throws Exception {
+    @Transactional
+    public DocumentResponseDto create(DocumentRequestCreateDto request) throws RuntimeException {
 
         BasicSubject basicSubject = basicSubjectRepository.findById(request.getBasicSubjectId()).orElseThrow(() ->  new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
         DocumentationType documentationType = documentationTypeRepository.findById(request.getDocumentationTypeId()).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
