@@ -6,6 +6,11 @@ import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto
 import br.com.danielchipolesch.application.dtos.documentDtos.DocumentUpdateDocumentAttachmentRequestDto;
 import br.com.danielchipolesch.domain.services.DocumentService;
 import br.com.danielchipolesch.domain.services.DocumentStatusManagerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +34,28 @@ public class DocumentController {
 
 
     @PostMapping
+    @Operation(summary = "Cria um novo documento", description = "Espécie normativa e número básico precisam ser válidos. Número secundário é criado automaticamente de acordo com o menor sequencial disponível.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Criação bem sucedida",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = DocumentResponseDto.class)
+                            )
+            }),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Assunto Básico ou Espécie Normativa não encontrada",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ExceptionDto.class)
+                            )
+                    }
+            )
+    })
     public ResponseEntity<DocumentResponseDto> post(@RequestBody @Valid DocumentRequestCreateDto request) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentService.create(request));
     }
