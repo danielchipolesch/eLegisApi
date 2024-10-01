@@ -1,4 +1,4 @@
-package br.com.danielchipolesch.domain.exceptions;
+package br.com.danielchipolesch.domain.handlers.exceptions;
 
 public class InvalidInputException extends RuntimeException{
     public InvalidInputException(String message){

@@ -10,23 +10,21 @@ import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAttachm
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
-import br.com.danielchipolesch.domain.exceptions.StatusCannotBeUpdatedException;
-import br.com.danielchipolesch.domain.exceptions.enums.BasicSubjectException;
-import br.com.danielchipolesch.domain.exceptions.enums.DocumentAttachmentException;
-import br.com.danielchipolesch.domain.exceptions.enums.DocumentException;
-import br.com.danielchipolesch.domain.exceptions.enums.DocumentationTypeException;
+import br.com.danielchipolesch.domain.handlers.exceptions.StatusCannotBeUpdatedException;
+import br.com.danielchipolesch.domain.handlers.exceptions.enums.BasicSubjectException;
+import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentAttachmentException;
+import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentException;
+import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentationTypeException;
 import br.com.danielchipolesch.domain.mappers.DocumentMapper;
-import br.com.danielchipolesch.domain.exceptions.ResourceNotFoundException;
-import br.com.danielchipolesch.infrastructure.repositories.BasicSubjectRepository;
-import br.com.danielchipolesch.infrastructure.repositories.DocumentAttachmentRepository;
-import br.com.danielchipolesch.infrastructure.repositories.DocumentRepository;
-import br.com.danielchipolesch.infrastructure.repositories.DocumentationTypeRepository;
+import br.com.danielchipolesch.domain.handlers.exceptions.ResourceNotFoundException;
+import br.com.danielchipolesch.infrastructure.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service

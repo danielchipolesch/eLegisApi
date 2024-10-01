@@ -1,4 +1,4 @@
-package br.com.danielchipolesch.domain.exceptions.enums;
+package br.com.danielchipolesch.domain.handlers.exceptions.enums;
 
 import lombok.Getter;
 
