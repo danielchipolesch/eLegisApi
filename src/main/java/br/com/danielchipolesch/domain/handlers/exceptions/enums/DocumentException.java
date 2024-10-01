@@ -12,6 +12,7 @@ public enum DocumentException {
     RASCUNHO("Para serem aprovados os documentos devem estar como rascunho ou minuta."),
     MINUTA("Para serem aprovados os documentos devem estar como rascunho ou minuta."),
     APROVADO ("Documentos está aprovado e não pode ser alterado."),
+    DOCUMENT_ACT_APROVADO("Para inserir um ato normativo, o documento precisa estar aprovado."),
     PUBLICADO("Documentos publicados não podem ser alterados."),
     ARQUIVADO("Documentos arquivados não podem ser alterados."),
     CANCELADO("Documentos cancelados não podem ser alterados."),
