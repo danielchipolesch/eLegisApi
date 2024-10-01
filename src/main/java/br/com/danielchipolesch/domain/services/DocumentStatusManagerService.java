@@ -1,6 +1,6 @@
 package br.com.danielchipolesch.domain.services;
 
-import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentResponseDto;
+import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
 import br.com.danielchipolesch.domain.entities.documentStructure.Document;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
 import br.com.danielchipolesch.domain.exceptions.ResourceCannotBeUpdatedException;

@@ -1,8 +1,8 @@
 package br.com.danielchipolesch.application.controllers;
 
-import br.com.danielchipolesch.domain.dtos.basicSubjectDtos.BasicSubjectRequestCreateDto;
-import br.com.danielchipolesch.domain.dtos.basicSubjectDtos.BasicSubjectRequestUpdateDto;
-import br.com.danielchipolesch.domain.dtos.basicSubjectDtos.BasicSubjectResponseDto;
+import br.com.danielchipolesch.application.dtos.basicSubjectDtos.BasicSubjectRequestCreateDto;
+import br.com.danielchipolesch.application.dtos.basicSubjectDtos.BasicSubjectRequestUpdateDto;
+import br.com.danielchipolesch.application.dtos.basicSubjectDtos.BasicSubjectResponseDto;
 import br.com.danielchipolesch.domain.services.BasicSubjectService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,11 +1,11 @@
 package br.com.danielchipolesch.domain.services;
 
-import br.com.danielchipolesch.domain.exceptions.ResourceAlreadyExistsException;
-import br.com.danielchipolesch.domain.exceptions.ResourceNotFoundException;
-import br.com.danielchipolesch.domain.exceptions.enums.DocumentationTypeException;
-import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeRequestCreateDto;
-import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeResponseDto;
-import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeRequestUpdateDto;
+import br.com.danielchipolesch.domain.handlers.exceptions.ResourceAlreadyExistsException;
+import br.com.danielchipolesch.domain.handlers.exceptions.ResourceNotFoundException;
+import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentationTypeException;
+import br.com.danielchipolesch.application.dtos.documentationTypeDtos.DocumentationTypeRequestCreateDto;
+import br.com.danielchipolesch.application.dtos.documentationTypeDtos.DocumentationTypeResponseDto;
+import br.com.danielchipolesch.application.dtos.documentationTypeDtos.DocumentationTypeRequestUpdateDto;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
 import br.com.danielchipolesch.infrastructure.repositories.DocumentationTypeRepository;
 import org.modelmapper.ModelMapper;

@@ -1,7 +1,7 @@
 package br.com.danielchipolesch.domain.mappers;
 
 
-import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentResponseDto;
+import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
 import br.com.danielchipolesch.domain.entities.documentStructure.Document;
 
 public class DocumentMapper {
@@ -22,5 +22,4 @@ public class DocumentMapper {
                 document.getVersion()
         );
     }
-
 }

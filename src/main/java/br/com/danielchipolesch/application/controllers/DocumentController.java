@@ -1,8 +1,9 @@
 package br.com.danielchipolesch.application.controllers;
 
-import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentRequestCreateDto;
-import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentResponseDto;
-import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentUpdateDocumentAttachmentRequestDto;
+import br.com.danielchipolesch.application.dtos.ExceptionDto;
+import br.com.danielchipolesch.application.dtos.documentDtos.DocumentRequestCreateDto;
+import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
+import br.com.danielchipolesch.application.dtos.documentDtos.DocumentUpdateDocumentAttachmentRequestDto;
 import br.com.danielchipolesch.domain.services.DocumentService;
 import br.com.danielchipolesch.domain.services.DocumentStatusManagerService;
 import jakarta.validation.Valid;

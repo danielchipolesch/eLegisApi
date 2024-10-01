@@ -1,4 +1,4 @@
-package br.com.danielchipolesch.domain.dtos.basicSubjectDtos;
+package br.com.danielchipolesch.application.dtos.basicSubjectDtos;
 
 import lombok.*;
 

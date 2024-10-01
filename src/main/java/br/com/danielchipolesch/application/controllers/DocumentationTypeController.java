@@ -1,8 +1,8 @@
 package br.com.danielchipolesch.application.controllers;
 
-import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeRequestCreateDto;
-import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeResponseDto;
-import br.com.danielchipolesch.domain.dtos.documentationTypeDtos.DocumentationTypeRequestUpdateDto;
+import br.com.danielchipolesch.application.dtos.documentationTypeDtos.DocumentationTypeRequestCreateDto;
+import br.com.danielchipolesch.application.dtos.documentationTypeDtos.DocumentationTypeResponseDto;
+import br.com.danielchipolesch.application.dtos.documentationTypeDtos.DocumentationTypeRequestUpdateDto;
 import br.com.danielchipolesch.domain.services.DocumentationTypeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

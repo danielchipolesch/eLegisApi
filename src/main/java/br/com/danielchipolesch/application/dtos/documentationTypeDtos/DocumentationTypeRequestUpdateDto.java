@@ -1,4 +1,4 @@
-package br.com.danielchipolesch.domain.dtos.documentationTypeDtos;
+package br.com.danielchipolesch.application.dtos.documentationTypeDtos;
 
 import lombok.Data;
 

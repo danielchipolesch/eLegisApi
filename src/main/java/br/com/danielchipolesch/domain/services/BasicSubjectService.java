@@ -1,12 +1,12 @@
 package br.com.danielchipolesch.domain.services;
 
-import br.com.danielchipolesch.domain.dtos.basicSubjectDtos.BasicSubjectRequestCreateDto;
-import br.com.danielchipolesch.domain.dtos.basicSubjectDtos.BasicSubjectRequestUpdateDto;
-import br.com.danielchipolesch.domain.dtos.basicSubjectDtos.BasicSubjectResponseDto;
+import br.com.danielchipolesch.application.dtos.basicSubjectDtos.BasicSubjectRequestCreateDto;
+import br.com.danielchipolesch.application.dtos.basicSubjectDtos.BasicSubjectRequestUpdateDto;
+import br.com.danielchipolesch.application.dtos.basicSubjectDtos.BasicSubjectResponseDto;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
-import br.com.danielchipolesch.domain.exceptions.ResourceAlreadyExistsException;
-import br.com.danielchipolesch.domain.exceptions.ResourceNotFoundException;
-import br.com.danielchipolesch.domain.exceptions.enums.BasicSubjectException;
+import br.com.danielchipolesch.domain.handlers.exceptions.ResourceAlreadyExistsException;
+import br.com.danielchipolesch.domain.handlers.exceptions.ResourceNotFoundException;
+import br.com.danielchipolesch.domain.handlers.exceptions.enums.BasicSubjectException;
 import br.com.danielchipolesch.infrastructure.repositories.BasicSubjectRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

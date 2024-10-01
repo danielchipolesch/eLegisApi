@@ -1,4 +1,4 @@
-package br.com.danielchipolesch.domain.dtos.documentationTypeDtos;
+package br.com.danielchipolesch.application.dtos.documentationTypeDtos;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

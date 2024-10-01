@@ -1,4 +1,4 @@
-package br.com.danielchipolesch.domain.dtos.documentDtos;
+package br.com.danielchipolesch.application.dtos.documentDtos;
 
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAct;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAttachment;

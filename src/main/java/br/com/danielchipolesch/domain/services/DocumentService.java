@@ -1,9 +1,10 @@
 package br.com.danielchipolesch.domain.services;
 
+import br.com.danielchipolesch.application.dtos.documentDtos.DocumentUpdateDocumentActRequestDto;
 import br.com.danielchipolesch.domain.builders.DocumentBuilder;
-import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentRequestCreateDto;
-import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentResponseDto;
-import br.com.danielchipolesch.domain.dtos.documentDtos.DocumentUpdateDocumentAttachmentRequestDto;
+import br.com.danielchipolesch.application.dtos.documentDtos.DocumentRequestCreateDto;
+import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
+import br.com.danielchipolesch.application.dtos.documentDtos.DocumentUpdateDocumentAttachmentRequestDto;
 import br.com.danielchipolesch.domain.entities.documentStructure.Document;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAttachment;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
