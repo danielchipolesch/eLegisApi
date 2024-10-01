@@ -1,63 +1,51 @@
 package br.com.danielchipolesch.domain.handlers;
 
-import br.com.danielchipolesch.domain.exceptions.*;
+import br.com.danielchipolesch.domain.handlers.exceptions.*;
+import br.com.danielchipolesch.domain.handlers.exceptions.utils.ExceptionResponseUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> handleException(Exception e) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("timestamp", LocalDateTime.now().toString());
-        map.put("message", e.getMessage());
-        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Map<String, Object>> handleException(Exception e, WebRequest request) {
+        Map<String, Object> body = ExceptionResponseUtil.buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), request);
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleResourceNotFound(ResourceNotFoundException e) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("timestamp", LocalDateTime.now().toString());
-        map.put("message", e.getMessage());
-        return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+    public ResponseEntity<Map<String, Object>> handleResourceNotFound(ResourceNotFoundException e, WebRequest request) {
+        Map<String, Object> body = ExceptionResponseUtil.buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage(), request);
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
-    public ResponseEntity<Map<String, Object>> handleAlreadyExists(ResourceAlreadyExistsException e) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("timestamp", LocalDateTime.now().toString());
-        map.put("message", e.getMessage());
-        return new ResponseEntity<>(map, HttpStatus.CONFLICT);
+    public ResponseEntity<Map<String, Object>> handleAlreadyExists(ResourceAlreadyExistsException e, WebRequest request) {
+        Map<String, Object> body = ExceptionResponseUtil.buildErrorResponse(HttpStatus.CONFLICT, e.getMessage(), request);
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(InvalidInputException.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidInput(InvalidInputException e) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("timestamp", LocalDateTime.now().toString());
-        map.put("message", e.getMessage());
-        return new ResponseEntity<>(map, HttpStatus.NOT_ACCEPTABLE);
+    public ResponseEntity<Map<String, Object>> handleInvalidInput(InvalidInputException e, WebRequest request) {
+        Map<String, Object> body = ExceptionResponseUtil.buildErrorResponse(HttpStatus.NOT_ACCEPTABLE, e.getMessage(), request);
+        return new ResponseEntity<>(body, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(ResourceCannotBeUpdatedException.class)
-    public ResponseEntity<Map<String, Object>> handleResourceCannotBeUpdatedException(ResourceCannotBeUpdatedException e) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("timestamp", LocalDateTime.now().toString());
-        map.put("message", e.getMessage());
-        return new ResponseEntity<>(map, HttpStatus.FORBIDDEN);
+    public ResponseEntity<Map<String, Object>> handleResourceCannotBeUpdatedException(ResourceCannotBeUpdatedException e, WebRequest request) {
+        Map<String, Object> body = ExceptionResponseUtil.buildErrorResponse(HttpStatus.FORBIDDEN, e.getMessage(), request);
+        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(StatusCannotBeUpdatedException.class)
-    public  ResponseEntity<Map<String, Object>> handleStatusCannotBeUpdatedException(StatusCannotBeUpdatedException e){
-        Map<String, Object> map = new HashMap<>();
-        map.put("timestamp", LocalDateTime.now().toString());
-        map.put("message", e.getMessage());
-        return new ResponseEntity<>(map, HttpStatus.FORBIDDEN);
+    public  ResponseEntity<Map<String, Object>> handleStatusCannotBeUpdatedException(StatusCannotBeUpdatedException e, WebRequest request){
+        Map<String, Object> body = ExceptionResponseUtil.buildErrorResponse(HttpStatus.FORBIDDEN, e.getMessage(), request);
+        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
     }
 }
