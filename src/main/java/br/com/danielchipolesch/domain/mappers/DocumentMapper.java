@@ -23,4 +23,12 @@ public class DocumentMapper {
                 document.getVersion()
         );
     }
+
+    public static RegulatoryActResponseDto documentToRegulatoryActResponseDto(Document document) {
+        return new RegulatoryActResponseDto(
+                document.getRegulatoryAct().getId(),
+                document.getRegulatoryAct().getFileName(),
+                document.getRegulatoryAct().getData()
+        );
+    }
 }
