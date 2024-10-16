@@ -1,6 +1,5 @@
 package br.com.danielchipolesch.domain.services;
 
-import br.com.danielchipolesch.application.dtos.documentDtos.DocumentUpdateDocumentActRequestDto;
 import br.com.danielchipolesch.domain.builders.DocumentBuilder;
 import br.com.danielchipolesch.application.dtos.documentDtos.DocumentRequestCreateDto;
 import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
@@ -24,7 +23,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -41,6 +39,7 @@ public class DocumentService {
 
     @Autowired
     DocumentAttachmentRepository documentAttachmentRepository;
+
 
     @Transactional
     public DocumentResponseDto create(DocumentRequestCreateDto request) throws RuntimeException {
@@ -90,6 +89,7 @@ public class DocumentService {
         }
     }
 
+    @Transactional
     public DocumentResponseDto updateDocumentAttachment(Long id, DocumentUpdateDocumentAttachmentRequestDto request) throws RuntimeException {
 
         Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
@@ -130,7 +130,7 @@ public class DocumentService {
                 .secondaryNumber(secondaryNumber)
                 .documentTitle(documentOld.getDocumentTitle())
                 .documentStatus(DocumentStatus.RASCUNHO)
-                .documentAct(documentOld.getDocumentAct())
+                .documentAct(documentOld.getRegulatoryAct())
                 .documentAttachment(documentAttachmentRepository.save(documentAttachmentCreate))
                 .build();
 
