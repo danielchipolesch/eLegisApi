@@ -6,7 +6,7 @@ import lombok.Data;
 @Entity
 @Table(name = "t_ato_normativo")
 @Data
-public class DocumentAct {
+public class RegulatoryAct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,10 +14,11 @@ public class DocumentAct {
     private Long id;
 
     @Column(name = "nm_ato_normativo")
-    private String name;
+    private String fileName;
 
+    @Lob
     @Column(name = "bt_conteudo_ato_normativo")
-    private byte[] content;
+    private byte[] data;
 //
 //    @OneToOne(mappedBy = "documentAct")
 //    private Document document;

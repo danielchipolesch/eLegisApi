@@ -43,7 +43,7 @@ public class Document {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_ato_normativo")
-    private DocumentAct documentAct;
+    private RegulatoryAct regulatoryAct;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_anexo_documento", nullable = false, updatable = false)

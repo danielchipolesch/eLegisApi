@@ -1,7 +1,7 @@
 package br.com.danielchipolesch.domain.builders;
 
 import br.com.danielchipolesch.domain.entities.documentStructure.Document;
-import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAct;
+import br.com.danielchipolesch.domain.entities.documentStructure.RegulatoryAct;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAttachment;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
@@ -14,7 +14,7 @@ public class DocumentBuilder {
     private Integer secondaryNumber;
     private String documentTitle;
     private DocumentStatus documentStatus;
-    private DocumentAct documentAct;
+    private RegulatoryAct regulatoryAct;
     private DocumentAttachment documentAttachment;
 
 
@@ -43,8 +43,8 @@ public class DocumentBuilder {
         return this;
     }
 
-    public DocumentBuilder documentAct(DocumentAct documentAct) {
-        this.documentAct = documentAct;
+    public DocumentBuilder documentAct(RegulatoryAct regulatoryAct) {
+        this.regulatoryAct = regulatoryAct;
         return this;
     }
 
@@ -60,7 +60,7 @@ public class DocumentBuilder {
         document.setSecondaryNumber(this.secondaryNumber);
         document.setDocumentTitle(this.documentTitle);
         document.setDocumentStatus(this.documentStatus);
-        document.setDocumentAct(this.documentAct);
+        document.setRegulatoryAct(this.regulatoryAct);
         document.setDocumentAttachment(this.documentAttachment);
         return document;
     }
