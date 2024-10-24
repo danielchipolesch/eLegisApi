@@ -41,12 +41,14 @@ public class Document {
     @Enumerated(EnumType.STRING)
     private DocumentStatus documentStatus;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_ato_normativo")
+//    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "id_ato_normativo")
+    @OneToOne(mappedBy = "document")
     private RegulatoryAct regulatoryAct;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_anexo_documento", nullable = false, updatable = false)
+//    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "id_anexo_documento", nullable = false, updatable = false)
+    @OneToOne(mappedBy = "document")
     private DocumentAttachment documentAttachment;
 
     @Column(name = "dt_criacao", updatable = false)
