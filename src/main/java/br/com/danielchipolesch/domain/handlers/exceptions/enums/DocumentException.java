@@ -1,6 +1,5 @@
 package br.com.danielchipolesch.domain.handlers.exceptions.enums;
 
-import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
 import lombok.Getter;
 
 @Getter
