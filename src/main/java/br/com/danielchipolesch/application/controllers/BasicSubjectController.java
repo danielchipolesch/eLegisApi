@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/numero-basico")
+@RequestMapping(value = "/api/assunto-basico")
 public class BasicSubjectController {
 
     @Autowired BasicSubjectService basicSubjectService;
@@ -42,12 +42,12 @@ public class BasicSubjectController {
         return  ResponseEntity.status(HttpStatus.OK).body(basicSubjectService.getById(id));
     }
 
-    @GetMapping("/obter-por-numero-basico/{number}")
-    public ResponseEntity<BasicSubjectResponseDto>  getByNumber(@PathVariable(value = "number") String number) throws Exception {
-        return  ResponseEntity.status(HttpStatus.OK).body(basicSubjectService.getByNumber(number));
+    @GetMapping("/obter-por-codigo-assunto-basico/{code}")
+    public ResponseEntity<BasicSubjectResponseDto>  getByNumber(@PathVariable(value = "code") String code) throws Exception {
+        return  ResponseEntity.status(HttpStatus.OK).body(basicSubjectService.getByNumber(code));
     }
 
-    @GetMapping
+    @GetMapping("obter-todos")
     public ResponseEntity<List<BasicSubjectResponseDto>> getAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
