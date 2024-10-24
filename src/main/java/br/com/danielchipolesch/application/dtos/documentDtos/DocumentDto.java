@@ -8,14 +8,15 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class DocumentResponseDto {
+public class DocumentDto {
 
-    private Long idDocumento;
+    private Long documentoId;
     private String siglaEspecieNormativa;
     private String codigoAssuntoBasico;
-    private Integer numeroSecundario;
-    private String codigoDocumento;
     private String nomeAssuntoBasico;
+    private Integer numeroSecundario;
     private String tituloDocumento;
     private DocumentStatus statusDocumento;
+    private RegulatoryAct portaria;
+    private DocumentAttachment anexo;
 }
