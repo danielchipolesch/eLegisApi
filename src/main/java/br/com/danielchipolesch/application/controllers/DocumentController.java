@@ -1,9 +1,9 @@
 package br.com.danielchipolesch.application.controllers;
 
 import br.com.danielchipolesch.application.dtos.ExceptionDto;
-import br.com.danielchipolesch.application.dtos.documentDtos.DocumentRequestCreateDto;
-import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
-import br.com.danielchipolesch.application.dtos.documentDtos.DocumentUpdateDocumentAttachmentRequestDto;
+import br.com.danielchipolesch.application.dtos.documentDtos.*;
+import br.com.danielchipolesch.domain.entities.documentStructure.Document;
+import br.com.danielchipolesch.domain.mappers.DocumentMapper;
 import br.com.danielchipolesch.domain.services.DocumentService;
 import br.com.danielchipolesch.domain.services.DocumentStatusManagerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,11 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/api/documento")
@@ -66,14 +71,31 @@ public class DocumentController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<DocumentResponseDto> getById(@PathVariable(value = "id") Long id) throws RuntimeException{
-        return ResponseEntity.status(HttpStatus.OK).body(documentService.getById(id));
+    public ResponseEntity<EntityModel<DocumentResponseDto>> getById(@PathVariable(value = "id") Long id) throws RuntimeException{
+
+        Document document = documentService.getById(id);
+        EntityModel<DocumentResponseDto> resource = EntityModel.of(DocumentMapper.documentToDocumentResponseDto(document));
+
+        Link selfLink = linkTo(methodOn(DocumentController.class).getById(id)).withSelfRel();
+        resource.add(selfLink);
+
+        if (document.getRegulatoryAct() != null) {
+            Link regulatoryActLink = linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(document.getRegulatoryAct().getId())).withRel("portaria");
+            resource.add(regulatoryActLink);
+        }
+
+        if (document.getDocumentAttachment() != null) {
+            Link documentAttachmentLink = linkTo(methodOn(DocumentAttachmentController.class).getById(document.getDocumentAttachment().getId())).withRel("anexo");
+            resource.add(documentAttachmentLink);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(resource);
     }
 
-    @GetMapping("/especie-normativa/{documentTypeId}/assunto-basico/{basicSubjectId}")
+    @GetMapping("filtrar")
     public ResponseEntity<List<DocumentResponseDto>> getByDocumentationTypeAndBasicSubject(
-            @PathVariable(value = "documentTypeId") Long documentTypeId,
-            @PathVariable(value = "basicSubjectId") Long basicSubjectId) throws RuntimeException {
+            @RequestParam(value = "especie-normativa") Long documentTypeId,
+            @RequestParam(value = "assunto-basico") Long basicSubjectId) throws RuntimeException {
         return ResponseEntity.status(HttpStatus.OK).body(documentService.getByDocumentationTypeAndBasicSubject(documentTypeId, basicSubjectId));
     }
 
@@ -88,11 +110,11 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.OK).body(documentService.getAll(pageable));
     }
 
-    @PutMapping("{id}/anexo")
-    public ResponseEntity<DocumentResponseDto> putDocumentAttachmentDocument(@PathVariable(value = "id") Long id,
-                                                                             @RequestBody DocumentUpdateDocumentAttachmentRequestDto request) throws RuntimeException {
-        return ResponseEntity.status(HttpStatus.OK).body(documentService.updateDocumentAttachment(id, request));
-    }
+//    @PutMapping("{id}/anexo")
+//    public ResponseEntity<DocumentResponseDto> putDocumentAttachmentDocument(@PathVariable(value = "id") Long id,
+//                                                                             @RequestBody DocumentAttachmentUpdateRequestDto request) throws RuntimeException {
+//        return ResponseEntity.status(HttpStatus.OK).body(documentService.updateDocumentAttachment(id, request));
+//    }
 
     @PutMapping("{id}/aprovar")
     public ResponseEntity<DocumentResponseDto> setDocumentAsApproved (@PathVariable(value = "id") Long id){
