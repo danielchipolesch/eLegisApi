@@ -60,7 +60,7 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentService.create(request));
     }
 
-    @PostMapping("{id}/clone")
+    @PostMapping("{id}/clonar")
     public ResponseEntity<DocumentResponseDto> clone(@PathVariable(value = "id") Long id) throws RuntimeException {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentService.clone(id));
     }
@@ -77,7 +77,7 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.OK).body(documentService.getByDocumentationTypeAndBasicSubject(documentTypeId, basicSubjectId));
     }
 
-    @GetMapping
+    @GetMapping("/obter-todos")
     public ResponseEntity<List<DocumentResponseDto>> getAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
