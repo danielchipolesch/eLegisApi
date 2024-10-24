@@ -5,18 +5,25 @@ import br.com.danielchipolesch.domain.entities.documentationNumbering.Documentat
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.sql.Timestamp;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "t_documento")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Document {
+public class Document extends RepresentationModel<Document> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
