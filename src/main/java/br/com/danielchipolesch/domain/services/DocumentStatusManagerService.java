@@ -30,6 +30,8 @@ public class DocumentStatusManagerService {
         throw new StatusCannotBeUpdatedException(DocumentException.CANNOT_BE_UPDATED.getMessage());
     }
 
+    /* TODO Must review statuses and its usability. */
+
     public DocumentResponseDto publishDocument(){
         /* TODO Insert logic to publish documents (PUBLICADO). To choose this status, current status must be APROVADO. */
         return null;
