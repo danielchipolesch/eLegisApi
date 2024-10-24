@@ -1,8 +1,7 @@
 package br.com.danielchipolesch.domain.mappers;
 
 
-import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
-import br.com.danielchipolesch.application.dtos.documentDtos.RegulatoryActResponseDto;
+import br.com.danielchipolesch.application.dtos.documentDtos.*;
 import br.com.danielchipolesch.domain.entities.documentStructure.Document;
 
 public class DocumentMapper {
@@ -12,23 +11,13 @@ public class DocumentMapper {
                 document.getId(),
                 document.getDocumentationType().getAcronym(),
                 document.getBasicSubject().getCode(),
-                document.getBasicSubject().getName(),
                 document.getSecondaryNumber(),
+                String.format("%s %s-%d", document.getDocumentationType().getAcronym(), document.getBasicSubject().getCode(), document.getSecondaryNumber()),
+                document.getBasicSubject().getName(),
                 document.getDocumentTitle(),
-                document.getDocumentStatus(),
-                document.getRegulatoryAct(), // Erase this parameter in future because it turns the response to heavy to load
-                document.getDocumentAttachment(),
-                document.getCreatedAt().toString(),
-                document.getUpdatedAt().toString(),
-                document.getVersion()
-        );
-    }
-
-    public static RegulatoryActResponseDto documentToRegulatoryActResponseDto(Document document) {
-        return new RegulatoryActResponseDto(
-                document.getRegulatoryAct().getId(),
-                document.getRegulatoryAct().getFileName(),
-                document.getRegulatoryAct().getData()
+                document.getDocumentStatus()
+//                document.getRegulatoryAct(),
+//                document.getDocumentAttachment()
         );
     }
 }
