@@ -33,7 +33,7 @@ public class DocumentationTypeController {
         return  ResponseEntity.status(HttpStatus.OK).body(documentationTypeService.getById(id));
     }
 
-    @GetMapping
+    @GetMapping("obter-todos")
     public ResponseEntity<List<DocumentationTypeResponseDto>> getAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
