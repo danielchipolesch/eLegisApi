@@ -1,8 +1,10 @@
 package br.com.danielchipolesch.domain.services;
 
 import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
+import br.com.danielchipolesch.application.dtos.regulatoryActDtos.RegulatoryActDto;
 import br.com.danielchipolesch.application.dtos.regulatoryActDtos.RegulatoryActRequestDto;
 import br.com.danielchipolesch.application.dtos.regulatoryActDtos.RegulatoryActResponseDto;
+import br.com.danielchipolesch.application.dtos.regulatoryActDtos.RegulatoryActResponseNoPdfDto;
 import br.com.danielchipolesch.domain.entities.documentStructure.Document;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
 import br.com.danielchipolesch.domain.entities.documentStructure.RegulatoryAct;
@@ -33,7 +35,7 @@ public class RegulatoryActService {
     DocumentRepository documentRepository;
 
     @Transactional
-    public RegulatoryActResponseDto insertRegulatoryActInDocument(Long id, MultipartFile file) throws RuntimeException, IOException {
+    public RegulatoryActResponseNoPdfDto insertRegulatoryActInDocument(Long id, MultipartFile file) throws RuntimeException, IOException {
         Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
         if (document.getDocumentStatus() != DocumentStatus.APROVADO){
             throw new StatusCannotBeUpdatedException(DocumentException.DOCUMENT_ACT_APROVADO.getMessage());
@@ -44,22 +46,28 @@ public class RegulatoryActService {
         regulatoryAct.setFileName(file.isEmpty() ? null : file.getOriginalFilename());
         regulatoryAct.setData(file.isEmpty() ? null : file.getBytes());
         regulatoryActRepository.save(regulatoryAct);
-        return RegulatoryActMapper.regulatoryActToResponseActResponseDto(regulatoryAct);
+        return RegulatoryActMapper.regulatoryActToRegulatoryActResponseNoPdfDto(regulatoryAct);
     }
 
-    public List<RegulatoryActResponseDto> getAll(Pageable pageable) throws RuntimeException {
+    public List<RegulatoryActDto> getAll(Pageable pageable) throws RuntimeException {
         try{
             Page<RegulatoryAct> regulatoryActs = regulatoryActRepository.findAll(pageable);
-            return regulatoryActs.stream().map(RegulatoryActMapper::regulatoryActToResponseActResponseDto).toList();
+            return regulatoryActs.stream().map(RegulatoryActMapper::regulatoryActToRegulatoryActDto).toList();
         } catch (Exception e) {
             throw new ResourceNotFoundException(RegulatoryActException.NOT_FOUND.getMessage());
         }
     }
 
+    public RegulatoryActResponseDto getById(Long idPortaria) throws RuntimeException {
+
+        RegulatoryAct regulatoryAct = regulatoryActRepository.findById(idPortaria).orElseThrow(() -> new ResourceNotFoundException(RegulatoryActException.NOT_FOUND.getMessage()));
+        return RegulatoryActMapper.regulatoryActToRegulatoryActResponseDto(regulatoryAct);
+    }
+
     public RegulatoryActResponseDto getByDocumentId(Long documentId) throws RuntimeException {
 
         Document document = documentRepository.findById(documentId).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
-        return RegulatoryActMapper.regulatoryActToResponseActResponseDto(document.getRegulatoryAct());
+        return RegulatoryActMapper.regulatoryActToRegulatoryActResponseDto(document.getRegulatoryAct());
     }
 
     @Transactional
