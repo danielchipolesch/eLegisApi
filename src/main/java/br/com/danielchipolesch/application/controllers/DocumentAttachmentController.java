@@ -17,7 +17,7 @@ public class DocumentAttachmentController {
     @Autowired
     DocumentAttachmentService documentAttachmentService;
 
-    @GetMapping("documento/{idDocumento}/portaria")
+    @GetMapping("documento/{idDocumento}/anexo")
     public ResponseEntity<DocumentAttachmentResponseDto> getById(@PathVariable(value = "idDocumento") Long idDocumento) throws RuntimeException {
         return ResponseEntity.status(HttpStatus.OK).body(documentAttachmentService.getById(idDocumento));
     }
