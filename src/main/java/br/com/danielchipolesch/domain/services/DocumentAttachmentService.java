@@ -1,7 +1,6 @@
 package br.com.danielchipolesch.domain.services;
 
 import br.com.danielchipolesch.application.dtos.documentAttachmentDtos.DocumentAttachmentResponseDto;
-import br.com.danielchipolesch.domain.entities.documentStructure.Document;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAttachment;
 import br.com.danielchipolesch.domain.handlers.exceptions.ResourceNotFoundException;
 import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentAttachmentException;
