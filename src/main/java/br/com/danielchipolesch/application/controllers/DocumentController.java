@@ -100,21 +100,27 @@ public class DocumentController {
     }
 
     @GetMapping("/obter-todos")
-    public ResponseEntity<List<DocumentResponseDto>> getAll(
+    public ResponseEntity<List<EntityModel<DocumentResponseDto>>> getAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy) throws RuntimeException {
 
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return ResponseEntity.status(HttpStatus.OK).body(documentService.getAll(pageable));
-    }
 
-//    @PutMapping("{id}/anexo")
-//    public ResponseEntity<DocumentResponseDto> putDocumentAttachmentDocument(@PathVariable(value = "id") Long id,
-//                                                                             @RequestBody DocumentAttachmentUpdateRequestDto request) throws RuntimeException {
-//        return ResponseEntity.status(HttpStatus.OK).body(documentService.updateDocumentAttachment(id, request));
-//    }
+        List<DocumentDto> documentsPageable = documentService.getAll(pageable);
+
+        List<EntityModel<DocumentResponseDto>> documents = documentsPageable.stream()
+                .map(documentDto -> {
+                    DocumentResponseDto documentResponseDto = DocumentMapper.documentDtoToDocumentResponseDto(documentDto);
+                    EntityModel<DocumentResponseDto> resource = EntityModel.of(documentResponseDto);
+                    resource.add(linkTo(methodOn(DocumentController.class).getById(documentDto.getDocumentoId())).withSelfRel());
+                    resource.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(documentDto.getPortaria().getId())).withRel("portaria"));
+                    return resource;
+                }).toList();
+
+        return ResponseEntity.status(HttpStatus.OK).body(documents);
+    }
 
     @PutMapping("{id}/aprovar")
     public ResponseEntity<DocumentResponseDto> setDocumentAsApproved (@PathVariable(value = "id") Long id){
