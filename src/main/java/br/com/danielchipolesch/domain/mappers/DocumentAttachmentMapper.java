@@ -8,7 +8,7 @@ public class DocumentAttachmentMapper {
     public static DocumentAttachmentResponseDto documentAttachmentToDocumentAttachmentResponseDto(DocumentAttachment documentAttachment){
         return new DocumentAttachmentResponseDto(
                 documentAttachment.getId(),
-                documentAttachment.getDocument(),
+                DocumentMapper.documentToDocumentResponseDto(documentAttachment.getDocument()),
                 documentAttachment.getTextAttachment()
         );
     }
