@@ -3,6 +3,7 @@ package br.com.danielchipolesch.domain.entities.documentStructure;
 import jakarta.persistence.*;
 import lombok.Data;
 
+
 @Entity
 @Table(name = "t_ato_normativo")
 @Data
