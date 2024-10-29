@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum RegulatoryActException {
 
-    NOT_FOUND("Ato regulatório não encontrado"),
-    ALREADY_EXISTS("Ato regulatório já existe");
+    NOT_FOUND("Portaria não encontrada"),
+    ALREADY_EXISTS("Portaria já existe");
 
     private final String message;
 
