@@ -16,8 +16,34 @@ public class DocumentMapper {
                 document.getBasicSubject().getName(),
                 document.getDocumentTitle(),
                 document.getDocumentStatus()
-//                document.getRegulatoryAct(),
-//                document.getDocumentAttachment()
+        );
+    }
+
+    public static DocumentDto documentToDocumentDto(Document document) {
+        return new DocumentDto(
+                document.getId(),
+                document.getDocumentationType().getAcronym(),
+                document.getBasicSubject().getCode(),
+                document.getSecondaryNumber(),
+                String.format("%s %s-%d", document.getDocumentationType().getAcronym(), document.getBasicSubject().getCode(), document.getSecondaryNumber()),
+                document.getBasicSubject().getName(),
+                document.getDocumentTitle(),
+                document.getDocumentStatus(),
+                document.getRegulatoryAct(),
+                document.getDocumentAttachment()
+        );
+    }
+
+    public static DocumentResponseDto documentDtoToDocumentResponseDto(DocumentDto documentDto){
+        return new DocumentResponseDto(
+                documentDto.getDocumentoId(),
+                documentDto.getSiglaEspecieNormativa(),
+                documentDto.getCodigoAssuntoBasico(),
+                documentDto.getNumeroSecundario(),
+                documentDto.getCodigoDocumento(),
+                documentDto.getNomeAssuntoBasico(),
+                documentDto.getTituloDocumento(),
+                documentDto.getStatusDocumento()
         );
     }
 }
