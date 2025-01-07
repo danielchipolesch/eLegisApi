@@ -56,7 +56,7 @@ public class Document extends RepresentationModel<Document> {
 //    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JoinColumn(name = "id_anexo_documento", nullable = false, updatable = false)
     @OneToOne(mappedBy = "document")
-    private DocumentAttachment documentAttachment;
+    private TextAttachment textAttachment;
 
     @Column(name = "dt_criacao", updatable = false)
     @CreationTimestamp
