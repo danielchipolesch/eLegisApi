@@ -80,13 +80,15 @@ public class DocumentController {
         resource.add(selfLink);
 
         if (document.getRegulatoryAct() != null) {
-            Link regulatoryActLink = linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(document.getRegulatoryAct().getId())).withRel("portaria");
-            resource.add(regulatoryActLink);
+            Link linkToRegulatoryAct = linkTo(methodOn(RegulatoryActController.class).getRegulatoryActById(document.getRegulatoryAct().getId())).withRel("portaria");
+            Link linkToRegulatoryActPdf = linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(document.getRegulatoryAct().getId())).withRel("portaria-pdf");
+            resource.add(linkToRegulatoryAct);
+            resource.add(linkToRegulatoryActPdf);
         }
 
-        if (document.getDocumentAttachment() != null) {
-            Link documentAttachmentLink = linkTo(methodOn(DocumentAttachmentController.class).getById(document.getDocumentAttachment().getId())).withRel("anexo");
-            resource.add(documentAttachmentLink);
+        if (document.getTextAttachment() != null) {
+            Link LinkToTextAttachment = linkTo(methodOn(TextAttachmentController.class).getById(document.getTextAttachment().getId())).withRel("parteTextual");
+            resource.add(LinkToTextAttachment);
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(resource);
