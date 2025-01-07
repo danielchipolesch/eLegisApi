@@ -35,7 +35,7 @@ public class DocumentService {
     BasicSubjectRepository basicSubjectRepository;
 
     @Autowired
-    DocumentAttachmentRepository documentAttachmentRepository;
+    TextAttachmentRepository textAttachmentRepository;
 
 
     @Transactional
@@ -45,9 +45,6 @@ public class DocumentService {
         BasicSubject basicSubject = basicSubjectRepository.findById(request.getIdAssuntoBasico()).orElseThrow(() ->  new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
 
         var secondaryNumber = this.calculateSecondaryNumber(documentationType, basicSubject);
-
-//        DocumentAttachment documentAttachmentCreate = new DocumentAttachment();
-//        documentAttachmentCreate.setTextAttachment("Insira o texto do documento.");
 
         Document document = new DocumentBuilder()
                 .documentationType(documentationType)
