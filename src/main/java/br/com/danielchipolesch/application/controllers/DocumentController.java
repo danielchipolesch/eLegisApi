@@ -107,17 +107,18 @@ public class DocumentController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy) throws RuntimeException {
 
-
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
 
-        List<DocumentDto> documentsPageable = documentService.getAll(pageable);
+        List<Document> documentsPageable = documentService.getAll(pageable);
 
         List<EntityModel<DocumentResponseDto>> documents = documentsPageable.stream()
                 .map(documentDto -> {
-                    DocumentResponseDto documentResponseDto = DocumentMapper.documentDtoToDocumentResponseDto(documentDto);
-                    EntityModel<DocumentResponseDto> resource = EntityModel.of(documentResponseDto);
-                    resource.add(linkTo(methodOn(DocumentController.class).getById(documentDto.getDocumentoId())).withSelfRel());
-                    resource.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(documentDto.getPortaria().getId())).withRel("portaria"));
+                    EntityModel<DocumentResponseDto> resource = EntityModel.of(DocumentMapper.documentToDocumentResponseDto(documentDto));
+                    resource.add(linkTo(methodOn(DocumentController.class).getById(documentDto.getId())).withSelfRel());
+                    if (documentDto.getRegulatoryAct() != null) {
+                        resource.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActById(documentDto.getRegulatoryAct().getId())).withRel("portaria"));
+                        resource.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(documentDto.getRegulatoryAct().getId())).withRel("portaria-pdf"));
+                    }
                     return resource;
                 }).toList();
 
@@ -128,6 +129,8 @@ public class DocumentController {
     public ResponseEntity<DocumentResponseDto> setDocumentAsApproved (@PathVariable(value = "id") Long id){
         return ResponseEntity.status(HttpStatus.OK).body(documentStatusManagerService.approveDocument(id));
     }
+
+    //TODO Create methods to change Document status, for example: setDocumentAsArchived...
 
     @DeleteMapping("{id}")
     public ResponseEntity<DocumentResponseDto> delete(@PathVariable(value = "id") Long id) throws RuntimeException {
