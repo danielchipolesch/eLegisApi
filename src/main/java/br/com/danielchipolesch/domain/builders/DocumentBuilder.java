@@ -2,6 +2,7 @@ package br.com.danielchipolesch.domain.builders;
 
 import br.com.danielchipolesch.domain.entities.documentStructure.Document;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
+import br.com.danielchipolesch.domain.entities.documentStructure.TextAttachment;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
 
@@ -12,6 +13,7 @@ public class DocumentBuilder {
     private Integer secondaryNumber;
     private String documentTitle;
     private DocumentStatus documentStatus;
+    private TextAttachment textAttachment;
 
 
     public DocumentBuilder documentationType(DocumentationType documentationType) {
@@ -39,6 +41,11 @@ public class DocumentBuilder {
         return this;
     }
 
+    public DocumentBuilder textAttachment(TextAttachment textAttachment) {
+        this.textAttachment = textAttachment;
+        return this;
+    }
+
     public Document build() {
         Document document = new Document();
         document.setDocumentationType(this.documentationType);
@@ -46,6 +53,7 @@ public class DocumentBuilder {
         document.setSecondaryNumber(this.secondaryNumber);
         document.setDocumentTitle(this.documentTitle);
         document.setDocumentStatus(this.documentStatus);
+        document.setTextAttachment(this.textAttachment);
         return document;
     }
 }
