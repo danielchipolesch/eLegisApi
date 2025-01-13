@@ -6,7 +6,7 @@ import lombok.Data;
 @Entity
 @Table(name = "t_documento_aprovado")
 @Data
-public class ApprovedDocument {
+public class DocumentVersion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
