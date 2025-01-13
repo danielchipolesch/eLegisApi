@@ -1,11 +1,11 @@
 package br.com.danielchipolesch.domain.services;
 
-import br.com.danielchipolesch.application.dtos.documentDtos.DocumentDto;
 import br.com.danielchipolesch.domain.builders.DocumentBuilder;
 import br.com.danielchipolesch.application.dtos.documentDtos.DocumentRequestCreateDto;
 import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
 import br.com.danielchipolesch.domain.entities.documentStructure.Document;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
+import br.com.danielchipolesch.domain.entities.documentStructure.TextAttachment;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
 import br.com.danielchipolesch.domain.handlers.exceptions.enums.BasicSubjectException;
@@ -52,36 +52,36 @@ public class DocumentService {
                 .secondaryNumber(secondaryNumber)
                 .documentTitle(request.getTituloDocumento())
                 .documentStatus(DocumentStatus.RASCUNHO)
-//                .documentAttachment(documentAttachmentRepository.save(documentAttachmentCreate))
                 .build();
 
-        documentRepository.save(document);
+        var newDocument = documentRepository.save(document);
+        TextAttachment  textAttachmentCreate = new TextAttachment();
+        textAttachmentCreate.setDocument(newDocument);
+        textAttachmentRepository.save(textAttachmentCreate);
         return DocumentMapper.documentToDocumentResponseDto(document);
     }
 
     public Document getById(Long id) throws RuntimeException{
 
-        Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
-        return document;
-//        return DocumentMapper.documentToDocumentResponseDto(document);
+        return documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
     }
 
-    public List<DocumentResponseDto> getByDocumentationTypeAndBasicSubject(Long documentationTypeId, Long basicSubjectId) throws ResourceNotFoundException{
+    public List<DocumentResponseDto> getByDocumentationTypeAndBasicSubject(Long documentationTypeId, Long basicSubjectId) throws ResourceNotFoundException {
 
-        var documentationType = documentationTypeRepository.findById(documentationTypeId).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
-        var basicSubject = basicSubjectRepository.findById(basicSubjectId).orElseThrow(() -> new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
+//        var documentationType = documentationTypeRepository.findById(documentationTypeId).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
+//        var basicSubject = basicSubjectRepository.findById(basicSubjectId).orElseThrow(() -> new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
 
-        List<Document> documents = documentRepository.findByDocumentationTypeAndBasicSubject(documentationType, basicSubject);
+        List<Document> documents = documentRepository.findDocumentsWithoutRegulatoryAct(documentationTypeId, basicSubjectId);
 
 
         // TODO Corrigir o erro que está impedindo o retorno da lista de documentos quando eles tem o RegulatoryAct associado. O @Lob está retornando um erro.
         return documents.stream().map(DocumentMapper::documentToDocumentResponseDto).toList();
     }
 
-    public List<DocumentDto> getAll(Pageable pageable) throws RuntimeException {
+    public List<Document> getAll(Pageable pageable) throws RuntimeException {
         try{
             Page<Document> documents = documentRepository.findAll(pageable);
-            return documents.stream().map(DocumentMapper::documentToDocumentDto).toList();
+            return documents.stream().toList();
         } catch (Exception e) {
             throw new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage());
         }
@@ -137,7 +137,7 @@ public class DocumentService {
 
     private Integer calculateSecondaryNumber(DocumentationType documentationType, BasicSubject basicSubject){
 
-        List<Document> documents = documentRepository.findByDocumentationTypeAndBasicSubject(documentationType, basicSubject);
+        List<Document> documents = documentRepository.findDocumentsWithoutRegulatoryAct(documentationType.getId(), basicSubject.getId());
 
         if (documents.isEmpty()) {
             return 1;

@@ -1,9 +1,13 @@
 package br.com.danielchipolesch.infrastructure.repositories;
 
+import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
 import br.com.danielchipolesch.domain.entities.documentStructure.Document;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,8 +20,40 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
 //   List<Document> findByDocumentationTypeAndBasicSubject(DocumentationType documentationType, BasicSubject basicSubject);
 
 //   @EntityGraph(attributePaths = {"documentTextAttachment"})
-   List<Document> findByDocumentationTypeAndBasicSubject(DocumentationType documentationType, BasicSubject basicSubject);
+//   List<Document> findByDocumentationTypeAndBasicSubject(DocumentationType documentationType, BasicSubject basicSubject);
 
+//   @EntityGraph(attributePaths = {"documentationType", "basicSubject"})
+//   @Query("SELECT d FROM Document d WHERE d.documentationType = :documentationType AND d.basicSubject = :basicSubject")
+//   List<DocumentResponseDto> findDocumentsWithoutRegulatoryAct(
+//           @Param("documentationType") DocumentationType documentationType,
+//           @Param("basicSubject") BasicSubject basicSubject
+//   );
+
+//   @Query("SELECT d FROM Document d WHERE d.documentationType = :documentationType AND d.basicSubject = :basicSubject")
+//   List<Document> findDocumentsWithoutRegulatoryAct(
+//           @Param("documentationType") DocumentationType documentationType,
+//           @Param("basicSubject") BasicSubject basicSubject
+//   );
+
+//   @Query("SELECT d FROM Document d " +
+//           "LEFT JOIN FETCH d.documentationType " + // Carregar documentationType (se necessário)
+//           "LEFT JOIN FETCH d.basicSubject " +      // Carregar basicSubject (se necessário)
+//           "WHERE d.documentationType = :documentationType AND d.basicSubject = :basicSubject")
+//   List<Document> findDocumentsWithoutRegulatoryAct(
+//           @Param("documentationType") DocumentationType documentationType,
+//           @Param("basicSubject") BasicSubject basicSubject
+//   );
+
+   @Query(value = "SELECT d.id_documento, d.nm_titulo_documento, dt.sg_especie_normativa, bs.cd_assunto_basico " +
+           "FROM t_documento d " +
+           "JOIN t_especie_normativa dt ON dt.id_especie_normativa = d.id_especie_normativa " +
+           "JOIN t_assunto_basico bs ON bs.id_assunto_basico = d.id_assunto_basico " +
+           "WHERE d.id_especie_normativa = :documentationTypeId " +
+           "AND d.id_assunto_basico = :basicSubjectId", nativeQuery = true)
+   List<Document> findDocumentsWithoutRegulatoryAct(
+           @Param("documentationTypeId") Long documentationTypeId,
+           @Param("basicSubjectId") Long basicSubjectId
+   );
 //   @Query("SELECT d FROM Document d LEFT JOIN FETCH d.documentAttachment da WHERE d.documentationType = :documentationType AND d.basicSubject = :basicSubject")
 //   List<Document> findByDocumentationTypeAndBasicSubject(@Param("documentationType") DocumentationType documentationType, @Param("basicSubject") BasicSubject basicSubject);
 

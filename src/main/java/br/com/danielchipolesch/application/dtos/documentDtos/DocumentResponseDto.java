@@ -1,8 +1,6 @@
 package br.com.danielchipolesch.application.dtos.documentDtos;
 
-import br.com.danielchipolesch.domain.entities.documentStructure.DocumentAttachment;
 import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
-import br.com.danielchipolesch.domain.entities.documentStructure.RegulatoryAct;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

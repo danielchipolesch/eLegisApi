@@ -3,6 +3,7 @@ package br.com.danielchipolesch.domain.entities.documentStructure;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
 import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,6 @@ import java.sql.Timestamp;
 @Table(name = "t_documento")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Document extends RepresentationModel<Document> {
 
@@ -30,11 +30,11 @@ public class Document extends RepresentationModel<Document> {
     @Column(name = "id_documento")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_especie_normativa", nullable = false)
     private DocumentationType documentationType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_assunto_basico", nullable = false)
     private BasicSubject basicSubject;
 
@@ -50,12 +50,13 @@ public class Document extends RepresentationModel<Document> {
 
 //    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JoinColumn(name = "id_ato_normativo")
-    @OneToOne(mappedBy = "document")
+    @OneToOne(mappedBy = "document", fetch = FetchType.LAZY)
+    @JsonIgnore
     private RegulatoryAct regulatoryAct;
 
 //    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JoinColumn(name = "id_anexo_documento", nullable = false, updatable = false)
-    @OneToOne(mappedBy = "document")
+    @OneToOne(mappedBy = "document", fetch = FetchType.LAZY)
     private TextAttachment textAttachment;
 
     @Column(name = "dt_criacao", updatable = false)
