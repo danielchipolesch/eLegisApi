@@ -3,7 +3,6 @@ package br.com.danielchipolesch.application.controllers;
 import br.com.danielchipolesch.application.dtos.regulatoryActDtos.RegulatoryActDto;
 import br.com.danielchipolesch.application.dtos.regulatoryActDtos.RegulatoryActResponseDto;
 import br.com.danielchipolesch.application.dtos.regulatoryActDtos.RegulatoryActResponseNoPdfDto;
-import br.com.danielchipolesch.domain.entities.documentStructure.RegulatoryAct;
 import br.com.danielchipolesch.domain.mappers.RegulatoryActMapper;
 import br.com.danielchipolesch.domain.services.RegulatoryActService;
 import jakarta.validation.Valid;
@@ -12,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,6 +38,21 @@ public class RegulatoryActController {
         return ResponseEntity.status(HttpStatus.CREATED).body(regulatoryActService.insertRegulatoryActInDocument(idDocumento, file));
     }
 
+    @GetMapping("{idPortaria}")
+    public ResponseEntity<EntityModel<RegulatoryActResponseNoPdfDto>> getRegulatoryActById(@PathVariable(value = "idPortaria") @Valid Long idPortaria) throws RuntimeException {
+
+        RegulatoryActResponseNoPdfDto regulatoryActResponseDto = regulatoryActService.getRegulatoryActNoPdfById(idPortaria);
+        EntityModel<RegulatoryActResponseNoPdfDto> resource = EntityModel.of(regulatoryActResponseDto);
+
+        Link selfLink = linkTo(methodOn(RegulatoryActController.class).getRegulatoryActById(idPortaria)).withSelfRel();
+        resource.add(selfLink);
+
+        resource.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(regulatoryActResponseDto.getIdPortaria())).withRel("portaria-pdf"));
+        resource.add(linkTo(methodOn(DocumentController.class).getById(regulatoryActResponseDto.getIdPortaria())).withRel("documento"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(resource);
+    }
+
     @GetMapping("{idPortaria}/pdf")
     public ResponseEntity<byte[]> getRegulatoryActPdfById(@PathVariable(value = "idPortaria") @Valid Long idPortaria) throws RuntimeException {
         RegulatoryActResponseDto pdfFile = regulatoryActService.getById(idPortaria);
@@ -54,7 +69,7 @@ public class RegulatoryActController {
                 .body(pdfFile.getDadoBase64());  // Retorna o conteúdo do PDF
     }
 
-    @GetMapping("documento/{idDocumento}")
+    @GetMapping("documento/{idDocumento}/pdf")
     public ResponseEntity<byte[]> getRegulatoryActPdfByDocumentId(@PathVariable(value = "idDocumento") @Valid Long idDocumento) throws RuntimeException {
 
         // Busca o arquivo PDF através do service
@@ -86,13 +101,15 @@ public class RegulatoryActController {
         List<EntityModel<RegulatoryActResponseNoPdfDto>> regulatoryActs = regulatoryActsPageable.stream()
                 .map(regulatoryAct -> {
                     RegulatoryActResponseNoPdfDto regulatoryActResponseDto = RegulatoryActMapper.regulatoryActDtoToRegulatoryActResponseNoPdfDto(regulatoryAct);
-                    EntityModel<RegulatoryActResponseNoPdfDto> regulatoryActResponseDtoEntityModel = EntityModel.of(regulatoryActResponseDto);
+                    EntityModel<RegulatoryActResponseNoPdfDto> resource = EntityModel.of(regulatoryActResponseDto);
 
-                    //TODO: Colocar um link real para a própria entidade portaria. Atualmente, está puxando o PDF.
-                    regulatoryActResponseDtoEntityModel.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(regulatoryAct.getIdPortaria())).withRel("pdf"));
-                    regulatoryActResponseDtoEntityModel.add(linkTo(methodOn(DocumentController.class).getById(regulatoryAct.getDocumento().getIdDocumento())).withRel("documento"));
+                    Link selfLink = linkTo(methodOn(RegulatoryActController.class).getRegulatoryActById(regulatoryActResponseDto.getIdPortaria())).withSelfRel();
+                    resource.add(selfLink);
 
-                    return regulatoryActResponseDtoEntityModel;
+                    resource.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(regulatoryAct.getIdPortaria())).withRel("portaria-pdf"));
+                    resource.add(linkTo(methodOn(DocumentController.class).getById(regulatoryAct.getDocumento().getIdDocumento())).withRel("documento"));
+
+                    return resource;
                 }).toList();
 
         return ResponseEntity.status(HttpStatus.OK).body(regulatoryActs);
