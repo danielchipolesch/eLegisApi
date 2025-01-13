@@ -9,6 +9,6 @@ import lombok.Data;
 public class RegulatoryActResponseNoPdfDto {
 
     private Long idPortaria;
-    private DocumentResponseDto documento;
+//    private DocumentResponseDto documento;
     private String nomePortaria;
 }

@@ -62,7 +62,15 @@ public class RegulatoryActService {
 
         RegulatoryAct regulatoryAct = regulatoryActRepository.findById(idPortaria).orElseThrow(() -> new ResourceNotFoundException(RegulatoryActException.NOT_FOUND.getMessage()));
         return RegulatoryActMapper.regulatoryActToRegulatoryActResponseDto(regulatoryAct);
+
     }
+
+    public RegulatoryActResponseNoPdfDto getRegulatoryActNoPdfById(Long idPortaria) throws RuntimeException {
+
+        RegulatoryAct regulatoryAct = regulatoryActRepository.findById(idPortaria).orElseThrow(() -> new ResourceNotFoundException(RegulatoryActException.NOT_FOUND.getMessage()));
+        return RegulatoryActMapper.regulatoryActToRegulatoryActResponseNoPdfDto(regulatoryAct);
+    }
+
 
     public RegulatoryActResponseDto getByDocumentId(Long documentId) throws RuntimeException {
 
@@ -70,6 +78,7 @@ public class RegulatoryActService {
         return RegulatoryActMapper.regulatoryActToRegulatoryActResponseDto(document.getRegulatoryAct());
     }
 
+    //TODO Finish updateRegulatoryActInDocument method
     @Transactional
     public DocumentResponseDto updateRegulatoryActInDocument(Long id, RegulatoryActRequestDto request) throws RuntimeException, IOException {
         return null;

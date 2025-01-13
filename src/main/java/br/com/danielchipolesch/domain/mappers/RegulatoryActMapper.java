@@ -10,7 +10,6 @@ public class RegulatoryActMapper {
     public static RegulatoryActResponseNoPdfDto regulatoryActToRegulatoryActResponseNoPdfDto(RegulatoryAct regulatoryAct){
         return new RegulatoryActResponseNoPdfDto(
                 regulatoryAct.getId(),
-                DocumentMapper.documentToDocumentResponseDto(regulatoryAct.getDocument()),
                 regulatoryAct.getFileName()
         );
     }
@@ -36,7 +35,6 @@ public class RegulatoryActMapper {
     public static RegulatoryActResponseNoPdfDto regulatoryActDtoToRegulatoryActResponseNoPdfDto(RegulatoryActDto regulatoryActDto){
         return new RegulatoryActResponseNoPdfDto(
                 regulatoryActDto.getIdPortaria(),
-                regulatoryActDto.getDocumento(),
                 regulatoryActDto.getNomePortaria()
         );
     }
