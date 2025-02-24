@@ -18,6 +18,6 @@ public class DocumentDto {
     private String nomeAssuntoBasico;
     private String tituloDocumento;
     private DocumentStatus statusDocumento;
-    private RegulatoryAct portaria;
+//    private RegulatoryAct portaria;
     private TextAttachment anexo;
 }

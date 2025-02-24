@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -50,9 +49,9 @@ public class Document extends RepresentationModel<Document> {
 
 //    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JoinColumn(name = "id_ato_normativo")
-    @OneToOne(mappedBy = "document", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private RegulatoryAct regulatoryAct;
+//    @OneToOne(mappedBy = "document", fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    private RegulatoryAct regulatoryAct;
 
 //    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JoinColumn(name = "id_anexo_documento", nullable = false, updatable = false)

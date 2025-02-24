@@ -29,7 +29,7 @@ public class DocumentMapper {
                 document.getBasicSubject().getName(),
                 document.getDocumentTitle(),
                 document.getDocumentStatus(),
-                document.getRegulatoryAct(),
+//                document.getRegulatoryAct(),
                 document.getTextAttachment()
         );
     }

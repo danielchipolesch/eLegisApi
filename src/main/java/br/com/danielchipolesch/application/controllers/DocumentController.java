@@ -79,12 +79,12 @@ public class DocumentController {
         Link selfLink = linkTo(methodOn(DocumentController.class).getById(id)).withSelfRel();
         resource.add(selfLink);
 
-        if (document.getRegulatoryAct() != null) {
-            Link linkToRegulatoryAct = linkTo(methodOn(RegulatoryActController.class).getRegulatoryActById(document.getRegulatoryAct().getId())).withRel("portaria");
-            Link linkToRegulatoryActPdf = linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(document.getRegulatoryAct().getId())).withRel("portaria-pdf");
-            resource.add(linkToRegulatoryAct);
-            resource.add(linkToRegulatoryActPdf);
-        }
+//        if (document.getRegulatoryAct() != null) {
+//            Link linkToRegulatoryAct = linkTo(methodOn(RegulatoryActController.class).getRegulatoryActById(document.getRegulatoryAct().getId())).withRel("portaria");
+//            Link linkToRegulatoryActPdf = linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(document.getRegulatoryAct().getId())).withRel("portaria-pdf");
+//            resource.add(linkToRegulatoryAct);
+//            resource.add(linkToRegulatoryActPdf);
+//        }
 
         if (document.getTextAttachment() != null) {
             Link LinkToTextAttachment = linkTo(methodOn(TextAttachmentController.class).getById(document.getTextAttachment().getId())).withRel("parteTextual");
@@ -115,10 +115,10 @@ public class DocumentController {
                 .map(documentDto -> {
                     EntityModel<DocumentResponseDto> resource = EntityModel.of(DocumentMapper.documentToDocumentResponseDto(documentDto));
                     resource.add(linkTo(methodOn(DocumentController.class).getById(documentDto.getId())).withSelfRel());
-                    if (documentDto.getRegulatoryAct() != null) {
-                        resource.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActById(documentDto.getRegulatoryAct().getId())).withRel("portaria"));
-                        resource.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(documentDto.getRegulatoryAct().getId())).withRel("portaria-pdf"));
-                    }
+//                    if (documentDto.getRegulatoryAct() != null) {
+//                        resource.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActById(documentDto.getRegulatoryAct().getId())).withRel("portaria"));
+//                        resource.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(documentDto.getRegulatoryAct().getId())).withRel("portaria-pdf"));
+//                    }
                     return resource;
                 }).toList();
 
