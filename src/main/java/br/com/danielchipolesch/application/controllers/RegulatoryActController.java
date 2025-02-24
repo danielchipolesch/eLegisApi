@@ -1,9 +1,13 @@
 package br.com.danielchipolesch.application.controllers;
 
+import br.com.danielchipolesch.application.dtos.docDtos.DocDto;
+import br.com.danielchipolesch.application.dtos.docDtos.DocResponseDto;
 import br.com.danielchipolesch.application.dtos.regulatoryActDtos.RegulatoryActDto;
 import br.com.danielchipolesch.application.dtos.regulatoryActDtos.RegulatoryActResponseDto;
 import br.com.danielchipolesch.application.dtos.regulatoryActDtos.RegulatoryActResponseNoPdfDto;
+import br.com.danielchipolesch.domain.entities.documentStructure.Doc;
 import br.com.danielchipolesch.domain.mappers.RegulatoryActMapper;
+import br.com.danielchipolesch.domain.services.DocService;
 import br.com.danielchipolesch.domain.services.RegulatoryActService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +36,12 @@ public class RegulatoryActController {
     @Autowired
     private RegulatoryActService regulatoryActService;
 
+    @Autowired
+    private DocService docService;
+
+
     @PostMapping(value = "documento/{id}/incluir-pdf", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<RegulatoryActResponseNoPdfDto> insertDocumentAct(@PathVariable(value = "id") @Valid Long idDocumento,
+    public ResponseEntity<RegulatoryActResponseNoPdfDto> insertDocumentAct(@PathVariable(value = "id") @Valid String idDocumento,
                                                                            @RequestParam("file") @Valid MultipartFile file) throws RuntimeException, IOException {
         return ResponseEntity.status(HttpStatus.CREATED).body(regulatoryActService.insertRegulatoryActInDocument(idDocumento, file));
     }
@@ -70,10 +78,15 @@ public class RegulatoryActController {
     }
 
     @GetMapping("documento/{idDocumento}/pdf")
-    public ResponseEntity<byte[]> getRegulatoryActPdfByDocumentId(@PathVariable(value = "idDocumento") @Valid Long idDocumento) throws RuntimeException {
+    public ResponseEntity<byte[]> getRegulatoryActPdfByDocumentId(@PathVariable(value = "idDocumento") @Valid String idDocumento) throws RuntimeException {
 
         // Busca o arquivo PDF através do service
-        RegulatoryActResponseDto pdfFile = regulatoryActService.getByDocumentId(idDocumento);
+        // RegulatoryActResponseDto pdfFile = regulatoryActService.getByDocumentId(idDocumento);
+
+        Doc document = docService.getById(idDocumento);
+
+        // Busca o arquivo PDF através do service
+        RegulatoryActResponseDto pdfFile = regulatoryActService.getById(document.getRegulatoryActId());
 
         // Define os headers
         HttpHeaders headers = new HttpHeaders();
@@ -107,7 +120,7 @@ public class RegulatoryActController {
                     resource.add(selfLink);
 
                     resource.add(linkTo(methodOn(RegulatoryActController.class).getRegulatoryActPdfById(regulatoryAct.getIdPortaria())).withRel("portaria-pdf"));
-                    resource.add(linkTo(methodOn(DocumentController.class).getById(regulatoryAct.getDocumento().getIdDocumento())).withRel("documento"));
+//                    resource.add(linkTo(methodOn(DocumentController.class).getById(regulatoryAct.getDocumento().getIdDocumento())).withRel("documento"));
 
                     return resource;
                 }).toList();

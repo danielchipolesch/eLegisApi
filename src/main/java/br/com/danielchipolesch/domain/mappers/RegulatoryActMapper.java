@@ -17,7 +17,7 @@ public class RegulatoryActMapper {
     public static RegulatoryActResponseDto regulatoryActToRegulatoryActResponseDto(RegulatoryAct regulatoryAct) {
         return new RegulatoryActResponseDto(
                 regulatoryAct.getId(),
-                DocumentMapper.documentToDocumentResponseDto(regulatoryAct.getDocument()),
+//                DocumentMapper.documentToDocumentResponseDto(regulatoryAct.getDocument()),
                 regulatoryAct.getFileName(),
                 regulatoryAct.getData()
         );
@@ -26,7 +26,7 @@ public class RegulatoryActMapper {
     public static RegulatoryActDto regulatoryActToRegulatoryActDto(RegulatoryAct regulatoryAct){
         return new RegulatoryActDto(
                 regulatoryAct.getId(),
-                DocumentMapper.documentToDocumentResponseDto(regulatoryAct.getDocument()),
+//                DocumentMapper.documentToDocumentResponseDto(regulatoryAct.getDocument()),
                 regulatoryAct.getFileName(),
                 regulatoryAct.getData()
         );

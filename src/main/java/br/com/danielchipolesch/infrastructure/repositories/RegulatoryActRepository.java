@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RegulatoryActRepository extends JpaRepository<RegulatoryAct, Long> {
-    RegulatoryAct findByDocumentId(Document document);
+//    RegulatoryAct findByDocumentId(Document document);
 }

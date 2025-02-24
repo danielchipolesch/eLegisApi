@@ -17,9 +17,9 @@ public class RegulatoryAct {
     @Column(name = "nm_ato_normativo")
     private String fileName;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
-    @JoinColumn(name = "id_documento")
-    private Document document;
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
+//    @JoinColumn(name = "id_documento")
+//    private Document document;
 
     @Lob
     @Column(name = "bt_conteudo_ato_normativo")

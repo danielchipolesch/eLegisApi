@@ -9,7 +9,7 @@ import lombok.Data;
 public class RegulatoryActDto {
 
     private Long idPortaria;
-    private DocumentResponseDto documento;
+//    private DocumentResponseDto documento;
     private String nomePortaria;
     private byte[] dadoBase64;
 }
