@@ -1,34 +1,33 @@
 package br.com.danielchipolesch.domain.mappers;
 
-
 import br.com.danielchipolesch.application.dtos.documentDtos.*;
-import br.com.danielchipolesch.domain.entities.documentStructure.Document;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.Document;
 
 public class DocumentMapper {
 
     public static DocumentResponseDto documentToDocumentResponseDto(Document document){
         return new DocumentResponseDto(
                 document.getId(),
-                document.getDocumentationType().getAcronym(),
-                document.getBasicSubject().getCode(),
+                document.getEspecieNormativa().getSigla(),
+                document.getAssuntoBasico().getCodigo(),
                 document.getSecondaryNumber(),
-                String.format("%s %s-%d", document.getDocumentationType().getAcronym(), document.getBasicSubject().getCode(), document.getSecondaryNumber()),
-                document.getBasicSubject().getName(),
+                String.format("%s %s-%d", document.getEspecieNormativa().getSigla(), document.getAssuntoBasico().getCodigo(), document.getSecondaryNumber()),
+                document.getAssuntoBasico().getNome(),
                 document.getDocumentTitle(),
-                document.getDocumentStatus()
+                document.getDocumentoStatusEnum()
         );
     }
 
     public static DocumentDto documentToDocumentDto(Document document) {
         return new DocumentDto(
                 document.getId(),
-                document.getDocumentationType().getAcronym(),
-                document.getBasicSubject().getCode(),
+                document.getEspecieNormativa().getSigla(),
+                document.getAssuntoBasico().getCodigo(),
                 document.getSecondaryNumber(),
-                String.format("%s %s-%d", document.getDocumentationType().getAcronym(), document.getBasicSubject().getCode(), document.getSecondaryNumber()),
-                document.getBasicSubject().getName(),
+                String.format("%s %s-%d", document.getEspecieNormativa().getSigla(), document.getAssuntoBasico().getCodigo(), document.getSecondaryNumber()),
+                document.getAssuntoBasico().getNome(),
                 document.getDocumentTitle(),
-                document.getDocumentStatus(),
+                document.getDocumentoStatusEnum(),
 //                document.getRegulatoryAct(),
                 document.getTextAttachment()
         );

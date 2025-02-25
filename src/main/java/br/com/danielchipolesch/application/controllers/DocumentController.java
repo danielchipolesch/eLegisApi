@@ -2,7 +2,7 @@ package br.com.danielchipolesch.application.controllers;
 
 import br.com.danielchipolesch.application.dtos.ExceptionDto;
 import br.com.danielchipolesch.application.dtos.documentDtos.*;
-import br.com.danielchipolesch.domain.entities.documentStructure.Document;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.Document;
 import br.com.danielchipolesch.domain.mappers.DocumentMapper;
 import br.com.danielchipolesch.domain.services.DocumentService;
 import br.com.danielchipolesch.domain.services.DocumentStatusManagerService;
@@ -28,7 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api/documento")
+@RequestMapping(value = "/api/document")
 public class DocumentController {
 
     @Autowired

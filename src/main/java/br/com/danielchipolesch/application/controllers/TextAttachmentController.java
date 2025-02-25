@@ -1,8 +1,7 @@
 package br.com.danielchipolesch.application.controllers;
 
 import br.com.danielchipolesch.application.dtos.textAttachmentDtos.TextAttachmentResponseDto;
-import br.com.danielchipolesch.domain.entities.documentStructure.TextAttachment;
-import br.com.danielchipolesch.domain.mappers.DocumentMapper;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.TextAttachment;
 import br.com.danielchipolesch.domain.mappers.TextAttachmentMapper;
 import br.com.danielchipolesch.domain.services.TextAttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;

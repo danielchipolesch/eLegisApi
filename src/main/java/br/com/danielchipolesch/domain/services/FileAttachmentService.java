@@ -1,9 +1,9 @@
 package br.com.danielchipolesch.domain.services;
 
 import br.com.danielchipolesch.application.dtos.fileAttachmentDtos.FileAttachmentResponseDto;
-import br.com.danielchipolesch.domain.entities.documentStructure.Document;
-import br.com.danielchipolesch.domain.entities.documentStructure.FileAttachment;
-import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.Document;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.FileAttachment;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.DocumentoStatusEnum;
 import br.com.danielchipolesch.domain.handlers.exceptions.ResourceNotFoundException;
 import br.com.danielchipolesch.domain.handlers.exceptions.StatusCannotBeUpdatedException;
 import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentAttachmentException;
@@ -32,7 +32,7 @@ public class FileAttachmentService {
         Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
 
         //TODO Create validation for each status
-        if (document.getDocumentStatus() != DocumentStatus.APROVADO){
+        if (document.getDocumentoStatusEnum() != DocumentoStatusEnum.APROVADO){
             throw new StatusCannotBeUpdatedException(DocumentException.DOCUMENT_ACT_APROVADO.getMessage());
         }
 

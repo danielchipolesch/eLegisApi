@@ -1,7 +1,7 @@
 package br.com.danielchipolesch.domain.mappers;
 
 import br.com.danielchipolesch.application.dtos.fileAttachmentDtos.FileAttachmentResponseDto;
-import br.com.danielchipolesch.domain.entities.documentStructure.FileAttachment;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.FileAttachment;
 
 public class FileAttachmentMapper {
 

@@ -1,8 +1,7 @@
 package br.com.danielchipolesch.application.dtos.documentDtos;
 
-import br.com.danielchipolesch.domain.entities.documentStructure.TextAttachment;
-import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
-import br.com.danielchipolesch.domain.entities.documentStructure.RegulatoryAct;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.TextAttachment;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.DocumentoStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -17,7 +16,7 @@ public class DocumentDto {
     private String codigoDocumento;
     private String nomeAssuntoBasico;
     private String tituloDocumento;
-    private DocumentStatus statusDocumento;
+    private DocumentoStatusEnum statusDocumento;
 //    private RegulatoryAct portaria;
     private TextAttachment anexo;
 }

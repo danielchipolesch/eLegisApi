@@ -1,4 +1,4 @@
-package br.com.danielchipolesch.domain.entities.documentStructure;
+package br.com.danielchipolesch.domain.entities.estruturaDocumento;
 
 import jakarta.persistence.*;
 import lombok.Data;

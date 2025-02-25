@@ -1,8 +1,8 @@
 package br.com.danielchipolesch.domain.services;
 
 import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
-import br.com.danielchipolesch.domain.entities.documentStructure.Document;
-import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.Document;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.DocumentoStatusEnum;
 import br.com.danielchipolesch.domain.handlers.exceptions.ResourceNotFoundException;
 import br.com.danielchipolesch.domain.handlers.exceptions.StatusCannotBeUpdatedException;
 import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentException;
@@ -20,11 +20,11 @@ public class DocumentStatusManagerService {
     public DocumentResponseDto approveDocument(Long id) throws RuntimeException {
 
         Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
-        if (document.getDocumentStatus() == DocumentStatus.RASCUNHO || document.getDocumentStatus() == DocumentStatus.MINUTA) {
-            document.setDocumentStatus(DocumentStatus.APROVADO);
+        if (document.getDocumentoStatusEnum() == DocumentoStatusEnum.RASCUNHO || document.getDocumentoStatusEnum() == DocumentoStatusEnum.MINUTA) {
+            document.setDocumentoStatusEnum(DocumentoStatusEnum.APROVADO);
             documentRepository.save(document);
             return DocumentMapper.documentToDocumentResponseDto(document);
-        } else if (document.getDocumentStatus() == DocumentStatus.APROVADO) {
+        } else if (document.getDocumentoStatusEnum() == DocumentoStatusEnum.APROVADO) {
             throw new StatusCannotBeUpdatedException(DocumentException.APROVADO.getMessage());
         }
         throw new StatusCannotBeUpdatedException(DocumentException.CANNOT_BE_UPDATED.getMessage());

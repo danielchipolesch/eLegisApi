@@ -1,28 +1,28 @@
 package br.com.danielchipolesch.domain.builders;
 
-import br.com.danielchipolesch.domain.entities.documentStructure.Document;
-import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
-import br.com.danielchipolesch.domain.entities.documentStructure.TextAttachment;
-import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
-import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.Document;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.DocumentoStatusEnum;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.TextAttachment;
+import br.com.danielchipolesch.domain.entities.numeracaoDocumento.AssuntoBasico;
+import br.com.danielchipolesch.domain.entities.numeracaoDocumento.EspecieNormativa;
 
 public class DocumentBuilder {
 
-    private DocumentationType documentationType;
-    private BasicSubject basicSubject;
+    private EspecieNormativa especieNormativa;
+    private AssuntoBasico assuntoBasico;
     private Integer secondaryNumber;
     private String documentTitle;
-    private DocumentStatus documentStatus;
+    private DocumentoStatusEnum documentoStatusEnum;
     private TextAttachment textAttachment;
 
 
-    public DocumentBuilder documentationType(DocumentationType documentationType) {
-        this.documentationType = documentationType;
+    public DocumentBuilder documentationType(EspecieNormativa especieNormativa) {
+        this.especieNormativa = especieNormativa;
         return this;
     }
 
-    public DocumentBuilder basicSubject(BasicSubject basicSubject) {
-        this.basicSubject = basicSubject;
+    public DocumentBuilder basicSubject(AssuntoBasico assuntoBasico) {
+        this.assuntoBasico = assuntoBasico;
         return this;
     }
 
@@ -36,8 +36,8 @@ public class DocumentBuilder {
         return this;
     }
 
-    public DocumentBuilder documentStatus(DocumentStatus documentStatus) {
-        this.documentStatus = documentStatus;
+    public DocumentBuilder documentStatus(DocumentoStatusEnum documentoStatusEnum) {
+        this.documentoStatusEnum = documentoStatusEnum;
         return this;
     }
 
@@ -48,11 +48,11 @@ public class DocumentBuilder {
 
     public Document build() {
         Document document = new Document();
-        document.setDocumentationType(this.documentationType);
-        document.setBasicSubject(this.basicSubject);
+        document.setEspecieNormativa(this.especieNormativa);
+        document.setAssuntoBasico(this.assuntoBasico);
         document.setSecondaryNumber(this.secondaryNumber);
         document.setDocumentTitle(this.documentTitle);
-        document.setDocumentStatus(this.documentStatus);
+        document.setDocumentoStatusEnum(this.documentoStatusEnum);
         document.setTextAttachment(this.textAttachment);
         return document;
     }

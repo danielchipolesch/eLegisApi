@@ -1,6 +1,6 @@
 package br.com.danielchipolesch.application.dtos.textAttachmentDtos;
 
-import br.com.danielchipolesch.domain.entities.documentStructure.Document;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.Document;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

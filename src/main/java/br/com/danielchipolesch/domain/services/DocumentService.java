@@ -3,11 +3,11 @@ package br.com.danielchipolesch.domain.services;
 import br.com.danielchipolesch.domain.builders.DocumentBuilder;
 import br.com.danielchipolesch.application.dtos.documentDtos.DocumentRequestCreateDto;
 import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
-import br.com.danielchipolesch.domain.entities.documentStructure.Document;
-import br.com.danielchipolesch.domain.entities.documentStructure.DocumentStatus;
-import br.com.danielchipolesch.domain.entities.documentStructure.TextAttachment;
-import br.com.danielchipolesch.domain.entities.documentationNumbering.BasicSubject;
-import br.com.danielchipolesch.domain.entities.documentationNumbering.DocumentationType;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.Document;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.DocumentoStatusEnum;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.TextAttachment;
+import br.com.danielchipolesch.domain.entities.numeracaoDocumento.AssuntoBasico;
+import br.com.danielchipolesch.domain.entities.numeracaoDocumento.EspecieNormativa;
 import br.com.danielchipolesch.domain.handlers.exceptions.enums.BasicSubjectException;
 import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentException;
 import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentationTypeException;
@@ -29,10 +29,10 @@ public class DocumentService {
     DocumentRepository documentRepository;
 
     @Autowired
-    DocumentationTypeRepository documentationTypeRepository;
+    EspecieNormativaRepository especieNormativaRepository;
 
     @Autowired
-    BasicSubjectRepository basicSubjectRepository;
+    AssuntoBasicoRepository assuntoBasicoRepository;
 
     @Autowired
     TextAttachmentRepository textAttachmentRepository;
@@ -41,17 +41,17 @@ public class DocumentService {
     @Transactional
     public DocumentResponseDto create(DocumentRequestCreateDto request) throws RuntimeException {
 
-        DocumentationType documentationType = documentationTypeRepository.findById(request.getIdEspecieNormativa()).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
-        BasicSubject basicSubject = basicSubjectRepository.findById(request.getIdAssuntoBasico()).orElseThrow(() ->  new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
+        EspecieNormativa especieNormativa = especieNormativaRepository.findById(request.getIdEspecieNormativa()).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
+        AssuntoBasico assuntoBasico = assuntoBasicoRepository.findById(request.getIdAssuntoBasico()).orElseThrow(() ->  new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
 
-        var secondaryNumber = this.calculateSecondaryNumber(documentationType, basicSubject);
+        var secondaryNumber = this.calculateSecondaryNumber(especieNormativa, assuntoBasico);
 
         Document document = new DocumentBuilder()
-                .documentationType(documentationType)
-                .basicSubject(basicSubject)
+                .documentationType(especieNormativa)
+                .basicSubject(assuntoBasico)
                 .secondaryNumber(secondaryNumber)
                 .documentTitle(request.getTituloDocumento())
-                .documentStatus(DocumentStatus.RASCUNHO)
+                .documentStatus(DocumentoStatusEnum.RASCUNHO)
                 .build();
 
         var newDocument = documentRepository.save(document);
@@ -71,7 +71,9 @@ public class DocumentService {
 //        var documentationType = documentationTypeRepository.findById(documentationTypeId).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
 //        var basicSubject = basicSubjectRepository.findById(basicSubjectId).orElseThrow(() -> new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
 
-        List<Document> documents = documentRepository.findDocumentsWithoutRegulatoryAct(documentationTypeId, basicSubjectId);
+//        List<Document> documents = documentRepository.findDocumentosWithoutPortaria(documentationTypeId, basicSubjectId);
+
+        List<Document> documents = documentRepository.findAll();
 
 
         // TODO Corrigir o erro que está impedindo o retorno da lista de documentos quando eles tem o RegulatoryAct associado. O @Lob está retornando um erro.
@@ -120,14 +122,14 @@ public class DocumentService {
 //        DocumentAttachment documentAttachmentCreate = new DocumentAttachment();
 //        documentAttachmentCreate.setTextAttachment(documentOld.getDocumentAttachment().getTextAttachment());
 
-        var secondaryNumber = this.calculateSecondaryNumber(documentOld.getDocumentationType(), documentOld.getBasicSubject());
+        var secondaryNumber = this.calculateSecondaryNumber(documentOld.getEspecieNormativa(), documentOld.getAssuntoBasico());
 
         Document documentNew = new DocumentBuilder()
-                .documentationType(documentOld.getDocumentationType())
-                .basicSubject(documentOld.getBasicSubject())
+                .documentationType(documentOld.getEspecieNormativa())
+                .basicSubject(documentOld.getAssuntoBasico())
                 .secondaryNumber(secondaryNumber)
                 .documentTitle(documentOld.getDocumentTitle())
-                .documentStatus(DocumentStatus.RASCUNHO)
+                .documentStatus(DocumentoStatusEnum.RASCUNHO)
 //                .documentAttachment(documentAttachmentRepository.save(documentAttachmentCreate))
                 .build();
 
@@ -135,9 +137,11 @@ public class DocumentService {
         return DocumentMapper.documentToDocumentResponseDto(documentNew);
     }
 
-    private Integer calculateSecondaryNumber(DocumentationType documentationType, BasicSubject basicSubject){
+    private Integer calculateSecondaryNumber(EspecieNormativa especieNormativa, AssuntoBasico assuntoBasico){
 
-        List<Document> documents = documentRepository.findDocumentsWithoutRegulatoryAct(documentationType.getId(), basicSubject.getId());
+//        List<Document> documents = documentRepository.findDocumentosWithoutPortaria(especieNormativa.getId(), assuntoBasico.getId());
+
+        List<Document> documents = documentRepository.findAll();
 
         if (documents.isEmpty()) {
             return 1;

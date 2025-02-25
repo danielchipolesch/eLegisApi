@@ -1,13 +1,9 @@
 package br.com.danielchipolesch.domain.services;
 
-import br.com.danielchipolesch.application.dtos.textAttachmentDtos.TextAttachmentResponseDto;
-import br.com.danielchipolesch.domain.entities.documentStructure.Document;
-import br.com.danielchipolesch.domain.entities.documentStructure.TextAttachment;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.TextAttachment;
 import br.com.danielchipolesch.domain.handlers.exceptions.ResourceNotFoundException;
 import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentAttachmentException;
 
-import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentException;
-import br.com.danielchipolesch.domain.mappers.TextAttachmentMapper;
 import br.com.danielchipolesch.infrastructure.repositories.DocumentRepository;
 import br.com.danielchipolesch.infrastructure.repositories.TextAttachmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
