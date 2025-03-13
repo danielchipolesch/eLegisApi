@@ -4,6 +4,7 @@ import br.com.danielchipolesch.application.dtos.especieNormativaDtos.Documentati
 import br.com.danielchipolesch.application.dtos.especieNormativaDtos.DocumentationTypeResponseDto;
 import br.com.danielchipolesch.application.dtos.especieNormativaDtos.DocumentationTypeRequestUpdateDto;
 import br.com.danielchipolesch.domain.services.EspecieNormativaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/especie-normativa")
+@RequestMapping(value = "/v1/especie-normativa")
 //@CrossOrigin(origins = "*")
+@Tag(name = "Espécie Normativa", description = "Inserir descrição")
 public class EspecieNormativaController {
 
     @Autowired
