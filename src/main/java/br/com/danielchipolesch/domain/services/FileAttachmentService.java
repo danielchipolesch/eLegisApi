@@ -1,7 +1,7 @@
 package br.com.danielchipolesch.domain.services;
 
 import br.com.danielchipolesch.application.dtos.fileAttachmentDtos.FileAttachmentResponseDto;
-import br.com.danielchipolesch.domain.entities.estruturaDocumento.Document;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.Documento;
 import br.com.danielchipolesch.domain.entities.estruturaDocumento.FileAttachment;
 import br.com.danielchipolesch.domain.entities.estruturaDocumento.DocumentoStatusEnum;
 import br.com.danielchipolesch.domain.handlers.exceptions.ResourceNotFoundException;
@@ -9,8 +9,8 @@ import br.com.danielchipolesch.domain.handlers.exceptions.StatusCannotBeUpdatedE
 import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentAttachmentException;
 import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentException;
 import br.com.danielchipolesch.domain.mappers.FileAttachmentMapper;
+import br.com.danielchipolesch.infrastructure.repositories.DocumentoRepository;
 import br.com.danielchipolesch.infrastructure.repositories.FileAttachmentRepository;
-import br.com.danielchipolesch.infrastructure.repositories.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,19 +25,19 @@ public class FileAttachmentService {
     FileAttachmentRepository fileAttachmentRepository;
 
     @Autowired
-    DocumentRepository documentRepository;
+    DocumentoRepository documentoRepository;
 
     @Transactional
     public FileAttachmentResponseDto insertRegulatoryActInDocument(Long id, MultipartFile file) throws RuntimeException, IOException {
-        Document document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
+        Documento documento = documentoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
 
         //TODO Create validation for each status
-        if (document.getDocumentoStatusEnum() != DocumentoStatusEnum.APROVADO){
+        if (documento.getDocumentoStatus() != DocumentoStatusEnum.APROVADO){
             throw new StatusCannotBeUpdatedException(DocumentException.DOCUMENT_ACT_APROVADO.getMessage());
         }
 
         FileAttachment fileAttachment = new FileAttachment();
-        fileAttachment.setDocument(document);
+        fileAttachment.setDocumento(documento);
         fileAttachment.setFileName(file.isEmpty() ? null : file.getOriginalFilename());
         fileAttachment.setData(file.isEmpty() ? null : file.getBytes());
         fileAttachmentRepository.save(fileAttachment);

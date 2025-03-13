@@ -1,6 +1,6 @@
 package br.com.danielchipolesch.application.dtos.fileAttachmentDtos;
 
-import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
+import br.com.danielchipolesch.application.dtos.documentoDtos.DocumentoResponseSemAnexoTextualDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,6 +10,6 @@ public class FileAttachmentResponseDto {
 
     private Long idAnexoArquivo;
     private String nomeAnexoArquivo;
-    private DocumentResponseDto documento;
+//    private DocumentoResponseSemAnexoTextualDto documento;
     private byte[] arquivoBase64;
 }

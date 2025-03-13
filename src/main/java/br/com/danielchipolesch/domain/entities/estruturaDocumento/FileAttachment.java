@@ -15,7 +15,7 @@ public class FileAttachment {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_documento", nullable = true)
-    private Document document;
+    private Documento documento;
 
     @Column(name = "nm_anexo_arquivo", columnDefinition = "TEXT")
     private String fileName;

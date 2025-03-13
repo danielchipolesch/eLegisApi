@@ -9,7 +9,7 @@ public class FileAttachmentMapper {
         return new FileAttachmentResponseDto(
                 fileAttachment.getId(),
                 fileAttachment.getFileName(),
-                DocumentMapper.documentToDocumentResponseDto(fileAttachment.getDocument()),
+//                DocumentoMapper.documentoDtoToDocumentoSemAnexoTextualResponseDto(fileAttachment.getDocumento()),
                 fileAttachment.getData()
         );
     }
