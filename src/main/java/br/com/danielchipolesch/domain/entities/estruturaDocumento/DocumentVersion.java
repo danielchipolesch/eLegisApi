@@ -15,7 +15,7 @@ public class DocumentVersion {
 
     @ManyToOne
     @JoinColumn(name = "id_documento")
-    private Document document;
+    private Documento document;
 
     //TODO Criar demais atributos
 }
