@@ -1,6 +1,6 @@
 package br.com.danielchipolesch.domain.services;
 
-import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
+import br.com.danielchipolesch.application.dtos.documentoDtos.DocumentoResponseSemAnexoTextualDto;
 import br.com.danielchipolesch.application.dtos.portariaDtos.PortariaDto;
 import br.com.danielchipolesch.application.dtos.portariaDtos.PortariaRequestDto;
 import br.com.danielchipolesch.application.dtos.portariaDtos.PortariaResponseDto;
@@ -14,7 +14,6 @@ import br.com.danielchipolesch.domain.handlers.exceptions.enums.DocumentExceptio
 import br.com.danielchipolesch.domain.handlers.exceptions.enums.RegulatoryActException;
 import br.com.danielchipolesch.domain.mappers.PortariaMapper;
 import br.com.danielchipolesch.infrastructure.repositories.DocumentoRepository;
-import br.com.danielchipolesch.infrastructure.repositories.DocumentRepository;
 import br.com.danielchipolesch.infrastructure.repositories.PortariaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-import static java.lang.String.valueOf;
 
 @Service
 public class PortariaService {
@@ -35,13 +33,10 @@ public class PortariaService {
     PortariaRepository portariaRepository;
 
     @Autowired
-    DocumentRepository documentRepository;
-
-    @Autowired
     DocumentoRepository documentoRepository;
 
     @Transactional
-    public PortariaResponseSemPdfDto insertRegulatoryActInDocument(String id, MultipartFile file) throws RuntimeException, IOException {
+    public PortariaResponseSemPdfDto insertRegulatoryActInDocument(Long id, MultipartFile file) throws RuntimeException, IOException {
         Documento document = documentoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
         if (!document.getDocumentoStatus().equals(DocumentoStatusEnum.APROVADO.toString())){
             throw new StatusCannotBeUpdatedException(DocumentException.DOCUMENT_ACT_APROVADO.getMessage());
@@ -89,7 +84,7 @@ public class PortariaService {
 
     //TODO Finish updateRegulatoryActInDocument method
     @Transactional
-    public DocumentResponseDto updateRegulatoryActInDocument(Long id, PortariaRequestDto request) throws RuntimeException, IOException {
+    public DocumentoResponseSemAnexoTextualDto updateRegulatoryActInDocument(Long id, PortariaRequestDto request) throws RuntimeException, IOException {
         return null;
     }
 }

@@ -5,16 +5,16 @@ import lombok.Data;
 
 
 @Entity
-@Table(name = "t_ato_normativo")
+@Table(name = "t_portaria")
 @Data
 public class Portaria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_ato_normativo")
+    @Column(name = "id_portaria")
     private Long id;
 
-    @Column(name = "nm_ato_normativo")
+    @Column(name = "nm_portaria")
     private String fileName;
 
 //    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
@@ -22,7 +22,7 @@ public class Portaria {
 //    private Document document;
 
     @Lob
-    @Column(name = "bt_conteudo_ato_normativo")
+    @Column(name = "bt_conteudo_portaria")
     @Basic(fetch = FetchType.LAZY)
     private byte[] data;
 //

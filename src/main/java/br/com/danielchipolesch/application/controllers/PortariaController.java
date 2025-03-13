@@ -7,6 +7,7 @@ import br.com.danielchipolesch.domain.entities.estruturaDocumento.Documento;
 import br.com.danielchipolesch.domain.mappers.PortariaMapper;
 import br.com.danielchipolesch.domain.services.DocumentoService;
 import br.com.danielchipolesch.domain.services.PortariaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +29,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api/portaria")
+@RequestMapping(value = "/v1/portarias")
+@Tag(name = "Portaria", description = "Inserir descrição")
 public class PortariaController {
 
     @Autowired
@@ -39,7 +41,7 @@ public class PortariaController {
 
 
     @PostMapping(value = "documento/{id}/incluir-pdf", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<PortariaResponseSemPdfDto> insertDocumentAct(@PathVariable(value = "id") @Valid String idDocumento,
+    public ResponseEntity<PortariaResponseSemPdfDto> insertDocumentAct(@PathVariable(value = "id") @Valid Long idDocumento,
                                                                        @RequestParam("file") @Valid MultipartFile file) throws RuntimeException, IOException {
         return ResponseEntity.status(HttpStatus.CREATED).body(portariaService.insertRegulatoryActInDocument(idDocumento, file));
     }
@@ -54,7 +56,7 @@ public class PortariaController {
         resource.add(selfLink);
 
         resource.add(linkTo(methodOn(PortariaController.class).getRegulatoryActPdfById(regulatoryActResponseDto.getIdPortaria())).withRel("portaria-pdf"));
-        resource.add(linkTo(methodOn(DocumentController.class).getById(regulatoryActResponseDto.getIdPortaria())).withRel("documento"));
+        resource.add(linkTo(methodOn(DocumentoController.class).getById(regulatoryActResponseDto.getIdPortaria())).withRel("documento"));
 
         return ResponseEntity.status(HttpStatus.OK).body(resource);
     }
@@ -76,7 +78,7 @@ public class PortariaController {
     }
 
     @GetMapping("documento/{idDocumento}/pdf")
-    public ResponseEntity<byte[]> getRegulatoryActPdfByDocumentId(@PathVariable(value = "idDocumento") @Valid String idDocumento) throws RuntimeException {
+    public ResponseEntity<byte[]> getRegulatoryActPdfByDocumentId(@PathVariable(value = "idDocumento") @Valid Long idDocumento) throws RuntimeException {
 
         // Busca o arquivo PDF através do service
         // RegulatoryActResponseDto pdfFile = regulatoryActService.getByDocumentId(idDocumento);
