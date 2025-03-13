@@ -1,6 +1,6 @@
 package br.com.danielchipolesch.domain.entities.estruturaDocumento;
 
-public enum AnexoParteNormativaItemTipos {
+public enum ItemAnexoParteNormativaTipoEnum {
 
     TITULO,
     CAPITULO,
