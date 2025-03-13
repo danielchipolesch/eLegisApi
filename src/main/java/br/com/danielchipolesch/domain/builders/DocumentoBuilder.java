@@ -2,24 +2,29 @@ package br.com.danielchipolesch.domain.builders;
 
 import br.com.danielchipolesch.domain.entities.estruturaDocumento.Documento;
 import br.com.danielchipolesch.domain.entities.estruturaDocumento.DocumentoStatusEnum;
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.ItemAnexoParteNormativa;
+import br.com.danielchipolesch.domain.entities.numeracaoDocumento.AssuntoBasico;
+import br.com.danielchipolesch.domain.entities.numeracaoDocumento.EspecieNormativa;
+
+import java.util.List;
 
 public class DocumentoBuilder {
 
-    private String siglaEspecieNormativa;
-    private String nomeAssuntoBasico;
+    private EspecieNormativa especieNormativa;
+    private AssuntoBasico assuntoBasico;
     private Integer numeroSecundario;
     private String tituloDocumento;
     private DocumentoStatusEnum documentoStatusEnum;
-//    private TextAttachment textAttachment;
+    private List<ItemAnexoParteNormativa> itens;
 
 
-    public DocumentoBuilder especieNormativa(String siglaEspecieNormativa) {
-        this.siglaEspecieNormativa = siglaEspecieNormativa;
+    public DocumentoBuilder especieNormativa(EspecieNormativa especieNormativa) {
+        this.especieNormativa = especieNormativa;
         return this;
     }
 
-    public DocumentoBuilder assuntoBasico(String nomeAssuntoBasico) {
-        this.nomeAssuntoBasico = nomeAssuntoBasico;
+    public DocumentoBuilder assuntoBasico(AssuntoBasico assuntoBasico) {
+        this.assuntoBasico = assuntoBasico;
         return this;
     }
 
@@ -38,19 +43,19 @@ public class DocumentoBuilder {
         return this;
     }
 
-//    public DocumentoBuilder textAttachment(TextAttachment textAttachment) {
-//        this.textAttachment = textAttachment;
-//        return this;
-//    }
+    public DocumentoBuilder itens(List<ItemAnexoParteNormativa> itens){
+        this.itens = itens;
+        return this;
+    }
 
     public Documento build() {
         Documento documento = new Documento();
-        documento.setEspecieNormativa(this.siglaEspecieNormativa);
-        documento.setAssuntoBasico(this.nomeAssuntoBasico);
+        documento.setEspecieNormativa(this.especieNormativa);
+        documento.setAssuntoBasico(this.assuntoBasico);
         documento.setNumeroSecundario(this.numeroSecundario);
         documento.setTituloDocumento(this.tituloDocumento);
-        documento.setDocumentoStatus(this.documentoStatusEnum.name());
-//        documento.setTextAttachment(this.textAttachment);
+        documento.setDocumentoStatus(this.documentoStatusEnum);
+        documento.setItens(this.itens);
         return documento;
     }
 }

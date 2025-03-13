@@ -1,7 +1,6 @@
 package br.com.danielchipolesch.domain.services;
 
 import br.com.danielchipolesch.application.dtos.documentoDtos.DocumentoResponseSemAnexoTextualDto;
-import br.com.danielchipolesch.application.dtos.documentDtos.DocumentResponseDto;
 import br.com.danielchipolesch.domain.entities.estruturaDocumento.Documento;
 import br.com.danielchipolesch.domain.entities.estruturaDocumento.DocumentoStatusEnum;
 import br.com.danielchipolesch.domain.handlers.exceptions.ResourceNotFoundException;
@@ -16,16 +15,16 @@ import org.springframework.stereotype.Service;
 public class DocumentoStatusService {
 
     @Autowired
-    DocumentoRepository documentRepository;
+    DocumentoRepository documentoRepository;
 
-    public DocumentoResponseSemAnexoTextualDto approveDocument(String id) throws RuntimeException {
+    public DocumentoResponseSemAnexoTextualDto approveDocument(Long id) throws RuntimeException {
 
-        Documento document = documentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
-        if (document.getDocumentoStatus().equals(DocumentoStatusEnum.RASCUNHO.name()) || document.getDocumentoStatus().equals(DocumentoStatusEnum.MINUTA.name())) {
-            document.setDocumentoStatus(DocumentoStatusEnum.APROVADO.name());
-            documentRepository.save(document);
+        Documento document = documentoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
+        if (document.getDocumentoStatus().equals(DocumentoStatusEnum.RASCUNHO) || document.getDocumentoStatus().equals(DocumentoStatusEnum.MINUTA)) {
+            document.setDocumentoStatus(DocumentoStatusEnum.APROVADO);
+            documentoRepository.save(document);
             return DocumentoMapper.documentoToDocumentoSemAnexoTextualResponseDto(document);
-        } else if (document.getDocumentoStatus().equals(DocumentoStatusEnum.APROVADO.name())) {
+        } else if (document.getDocumentoStatus().equals(DocumentoStatusEnum.APROVADO)) {
             throw new StatusCannotBeUpdatedException(DocumentException.APROVADO.getMessage());
         }
         throw new StatusCannotBeUpdatedException(DocumentException.CANNOT_BE_UPDATED.getMessage());
@@ -33,22 +32,22 @@ public class DocumentoStatusService {
 
     /* TODO Must review statuses and its usability. */
 
-    public DocumentResponseDto publishDocument(){
+    public DocumentoResponseSemAnexoTextualDto publishDocument(){
         /* TODO Insert logic to publish documents (PUBLICADO). To choose this status, current status must be APROVADO. */
         return null;
     }
 
-    public DocumentResponseDto archiveDocument(){
+    public DocumentoResponseSemAnexoTextualDto archiveDocument(){
         /* TODO Insert logic to archive documents (ARQUIVADO). To choose this status, current status must be XYZ. */
         return null;
     }
 
-    public DocumentResponseDto cancelDocument(){
+    public DocumentoResponseSemAnexoTextualDto cancelDocument(){
         /* TODO Insert logic to cancel documents (CANCELADO). To choose this status, current status must be ZYX. */
         return null;
     }
 
-    public DocumentResponseDto revokeDocument(){
+    public DocumentoResponseSemAnexoTextualDto revokeDocument(){
         /* TODO Insert logic to revoke documents (REVOGAR). To choose this status, current status must be AAAAA. */
         return null;
     }

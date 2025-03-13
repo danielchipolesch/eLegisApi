@@ -19,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.String;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,9 +35,6 @@ public class DocumentoService {
     @Autowired
     AssuntoBasicoRepository assuntoBasicoRepository;
 
-    @Autowired
-    TextAttachmentRepository textAttachmentRepository;
-
 
     @Transactional
     public DocumentoResponseSemAnexoTextualDto create(DocumentoRequestCreateDto request) throws RuntimeException {
@@ -45,14 +42,15 @@ public class DocumentoService {
         EspecieNormativa especieNormativa = especieNormativaRepository.findById(request.getIdEspecieNormativa()).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
         AssuntoBasico assuntoBasico = assuntoBasicoRepository.findById(request.getIdAssuntoBasico()).orElseThrow(() ->  new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
 
-        var secondaryNumber = this.calculateSecondaryNumber(especieNormativa.getSigla(), assuntoBasico.getCodigo());
+        var secondaryNumber = this.calculateSecondaryNumber(especieNormativa, assuntoBasico);
 
         Documento documento = new DocumentoBuilder()
-                .especieNormativa(especieNormativa.getSigla())
-                .assuntoBasico(assuntoBasico.getCodigo())
+                .especieNormativa(especieNormativa)
+                .assuntoBasico(assuntoBasico)
                 .numeroSecundario(secondaryNumber)
                 .tituloDocumento(request.getTituloDocumento())
                 .documentoStatus(DocumentoStatusEnum.RASCUNHO)
+                .itens(new ArrayList<>())
                 .build();
 
 //        var newDocument = docRepository.save(doc);
@@ -62,21 +60,18 @@ public class DocumentoService {
         return DocumentoMapper.documentoToDocumentoSemAnexoTextualResponseDto(documentoRepository.save(documento));
     }
 
-    public Documento getById(String id) throws RuntimeException{
+    public Documento getById(Long id) throws RuntimeException{
 
         return documentoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
     }
 
     public List<DocumentoResponseSemAnexoTextualDto> getByDocumentationTypeAndBasicSubject(Long documentationTypeId, Long basicSubjectId) throws ResourceNotFoundException {
 
-//        var documentationType = documentationTypeRepository.findById(documentationTypeId).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
-//        var basicSubject = basicSubjectRepository.findById(basicSubjectId).orElseThrow(() -> new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
+        var especieNormativa = especieNormativaRepository.findById(documentationTypeId).orElseThrow(() -> new ResourceNotFoundException(DocumentationTypeException.NOT_FOUND.getMessage()));
+        var assuntoBasico = assuntoBasicoRepository.findById(basicSubjectId).orElseThrow(() -> new ResourceNotFoundException(BasicSubjectException.NOT_FOUND.getMessage()));
 
-//
-        List<Documento> documents = documentoRepository.findAll();
+        List<Documento> documents = documentoRepository.findByEspecieNormativaAndAssuntoBasico(especieNormativa, assuntoBasico);
 
-
-        // TODO Corrigir o erro que está impedindo o retorno da lista de documentos quando eles tem o RegulatoryAct associado. O @Lob está retornando um erro.
         return documents.stream().map(DocumentoMapper::documentoToDocumentoSemAnexoTextualResponseDto).toList();
     }
 
@@ -107,7 +102,7 @@ public class DocumentoService {
 //
 //    }
 
-    public DocumentoResponseSemAnexoTextualDto delete(String id) throws RuntimeException {
+    public DocumentoResponseSemAnexoTextualDto delete(Long id) throws RuntimeException {
 
         Documento document = documentoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
         documentoRepository.delete(document);
@@ -115,7 +110,7 @@ public class DocumentoService {
     }
 
 
-    public DocumentoResponseSemAnexoTextualDto clone(String id) throws RuntimeException {
+    public DocumentoResponseSemAnexoTextualDto clone(Long id) throws RuntimeException {
 
         Documento documentOld = documentoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(DocumentException.NOT_FOUND.getMessage()));
 
@@ -137,9 +132,9 @@ public class DocumentoService {
         return DocumentoMapper.documentoToDocumentoSemAnexoTextualResponseDto(documentoRepository.save(documentNew));
     }
 
-    private Integer calculateSecondaryNumber(String documentationType, String basicSubject){
+    private Integer calculateSecondaryNumber(EspecieNormativa especieNormativa, AssuntoBasico assuntoBasico){
 
-        List<Documento> documents = documentoRepository.findByEspecieNormativaAndAssuntoBasico(documentationType, basicSubject);
+        List<Documento> documents = documentoRepository.findByEspecieNormativaAndAssuntoBasico(especieNormativa, assuntoBasico);
 
         if (documents.isEmpty()) {
             return 1;

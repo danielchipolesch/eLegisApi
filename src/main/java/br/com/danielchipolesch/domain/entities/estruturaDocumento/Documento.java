@@ -1,54 +1,73 @@
 package br.com.danielchipolesch.domain.entities.estruturaDocumento;
 
+import br.com.danielchipolesch.domain.entities.numeracaoDocumento.AssuntoBasico;
+import br.com.danielchipolesch.domain.entities.numeracaoDocumento.EspecieNormativa;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.sql.Timestamp;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@Table(name = "t_documento")
 @Data
-@Document(collection = "documento")
-public class Documento {
+@NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+
+public class Documento extends RepresentationModel<Documento> {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_documento")
+    private Long id;
 
-    @Field("especieNormativa")
-    private String especieNormativa;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "especie_normativa_id", nullable = false)
+    private EspecieNormativa especieNormativa;
 
-    @Field("assuntoBasico")
-    private String assuntoBasico;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "assunto_basico_id", nullable = false)
+    private AssuntoBasico assuntoBasico;
 
-    @Field("numeroSecundario")
+    @Column(name = "nr_numero_secundario", nullable = false)
     private Integer numeroSecundario;
 
-    @Field("nomeDocumento")
+    @Column(name = "nm_titulo_documento", nullable = false)
     private String tituloDocumento;
 
-    @Field("documentStatus")
-    private String documentoStatus;
+    @Column(name = "st_documento", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private DocumentoStatusEnum documentoStatus;
 
-    @Field("portaria")
+//    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "portaria_id")
+    @Column(name = "portaria_id")
     private Long idPortaria;
 
-    @Field("parteNormativa")
-    @DBRef
-    private List<AnexoParteNormativaItem> itens;
+//    @OneToMany(mappedBy = "document", fetch = FetchType.LAZY) // Bidirecional
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "documento_id")
+    private List<ItemAnexoParteNormativa> itens;
 
-    @Field("dataCriacao")
-    @CreatedDate
+    @Column(name = "dt_criacao", updatable = false)
+    @CreationTimestamp
     private Timestamp dtCriacao;
 
-    @Field("dataAlteracao")
-    @LastModifiedDate
+    @Column(name = "dt_alteracao")
+    @UpdateTimestamp
     private Timestamp dtAlteracao;
 
-    @Field("numeroVersao")
+    @Column(name = "nr_versao", nullable = false)
     @Version
     private Integer versao;
+
+
 }

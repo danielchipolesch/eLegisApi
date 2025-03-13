@@ -1,5 +1,6 @@
 package br.com.danielchipolesch.application.dtos.documentoDtos;
 
+import br.com.danielchipolesch.domain.entities.estruturaDocumento.DocumentoStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,12 +8,12 @@ import lombok.Data;
 @AllArgsConstructor
 public class DocumentoResponseSemAnexoTextualDto {
 
-    private String idDocumento;
+    private Long idDocumento;
     private String siglaEspecieNormativa;
     private String codigoAssuntoBasico;
     private Integer numeroSecundario;
     private String codigoDocumento;
     //    private String nomeAssuntoBasico;
     private String tituloDocumento;
-    private String statusDocumento;
+    private DocumentoStatusEnum statusDocumento;
 }
